@@ -9,9 +9,10 @@ var con = mysql.createConnection({
 
 con.connect(function(err) {
   if (err) throw err;
-  var sql = "UPDATE users SET Email = 'zsolh@gmail.com' WHERE users.id = 1";
+  var sql = "SELECT users.Email AS User, therapists.Email AS Therapist FROM favorites JOIN users ON favorites.User = users.id JOIN therapists ON favorites.Therapist = therapists.id";
+  //therapists.Email AS Therapist FROM reviews JOIN therapists ON reviews.Therapist = therapists.id";
   con.query(sql, function (err, result) {
     if (err) throw err;
-    console.log(result.affectedRows + " record(s) updated");
+    console.log(result);
   });
 });
