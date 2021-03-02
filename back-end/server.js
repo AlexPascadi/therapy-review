@@ -92,17 +92,12 @@ server.get('/therapists/:therapist_id', (req, res) => {
 
 //Laurence
 server.get('/clients/:client_id', (req, res) => {
-    const client_id = req.params.client_id;
-    found = false;
-    for (let i = 0; i < clients.length; i++) {
-        if (clients[i].email === client_id) {
-            res.send(clients[i]);
-            found = true;
-        }
-    }
-    if (!found) {
-        res.send({ success: false });
-    }
+    const email = req.params.client_id;
+    var sql = "SELECT * FROM clients WHERE Email = ?";
+    con.query(sql, [email], function (err, result) {
+        if (err) throw err;
+        res.send(result[0]);
+    });
 });
 
 /* server.get('/reviews/:review_id', (req, res) => {
