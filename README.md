@@ -1,4 +1,4 @@
-# find-therapist
+# therapy-review / smart-therapy
 
 (To be done)
 
