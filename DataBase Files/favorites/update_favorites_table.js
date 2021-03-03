@@ -9,15 +9,9 @@ var con = mysql.createConnection({
 
 con.connect(function(err) {
   if (err) throw err;
-  console.log("Connected!");
-  var sql = "INSERT INTO favorites (User, Therapist) VALUES ?";
-  var values = [
-    [1, 2],
-    [3, 1],
-    [1, 1],
-  ];
-  con.query(sql, [values], function (err, result) {
+  var sql = "ALTER TABLE favorites RENAME COLUMN User to Client";
+  con.query(sql, function (err, result) {
     if (err) throw err;
-    console.log("Number of records inserted: " + result.affectedRows);
+    console.log(result.affectedRows + " record(s) updated");
   });
 });

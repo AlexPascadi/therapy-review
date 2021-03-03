@@ -8,9 +8,11 @@ var con = mysql.createConnection({
 });
 
 con.connect(function(err) {
-  if (err) throw err;
-  con.query("SELECT Therapist FROM favorites WHERE User = 1", function (err, result, fields) {
     if (err) throw err;
-    console.log(result);
+    console.log("Connected!");
+    var sql = "CREATE TABLE favorites (id INT AUTO_INCREMENT PRIMARY KEY, Client INT, Therapist INT)";
+    con.query(sql, function (err, result) {
+      if (err) throw err;
+      console.log("Table created");
+    });
   });
-});
