@@ -9,9 +9,10 @@ var con = mysql.createConnection({
 
 con.connect(function(err) {
   if (err) throw err;
-  var sql = "ALTER TABLE reviews RENAME COLUMN User to Client";
+  var sql = "ALTER TABLE reviews RENAME COLUMN Message TO Comment";
   con.query(sql, function (err, result) {
     if (err) throw err;
     console.log(result.affectedRows + " record(s) updated");
   });
 });
+

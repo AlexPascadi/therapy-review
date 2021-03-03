@@ -9,10 +9,9 @@ var con = mysql.createConnection({
 
 con.connect(function(err) {
   if (err) throw err;
-  var sql = "SELECT reviews.Comment AS Comment, clients.Email AS Client, therapists.Email AS Therapist FROM reviews JOIN clients ON reviews.Client = clients.id JOIN therapists ON reviews.Therapist = therapists.id";
-  //therapists.Email AS Therapist FROM reviews JOIN therapists ON reviews.Therapist = therapists.id";
+  var sql = "ALTER TABLE therapists ADD ImageLocation VARCHAR(255)";
   con.query(sql, function (err, result) {
     if (err) throw err;
-    console.log(result);
+    console.log(result.affectedRows + " record(s) updated");
   });
 });
