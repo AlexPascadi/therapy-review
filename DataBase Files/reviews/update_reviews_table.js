@@ -8,11 +8,10 @@ var con = mysql.createConnection({
 });
 
 con.connect(function(err) {
+  if (err) throw err;
+  var sql = "ALTER TABLE reviews RENAME COLUMN User to Client";
+  con.query(sql, function (err, result) {
     if (err) throw err;
-    console.log("Connected!");
-    var sql = "CREATE TABLE reviews (id INT AUTO_INCREMENT PRIMARY KEY, Message VARCHAR(1000), User INT, Therapist INT)";
-    con.query(sql, function (err, result) {
-      if (err) throw err;
-      console.log("Table created");
-    });
+    console.log(result.affectedRows + " record(s) updated");
   });
+});
