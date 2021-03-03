@@ -9,9 +9,8 @@ var con = mysql.createConnection({
 
 con.connect(function(err) {
   if (err) throw err;
-  var sql = "DELETE FROM users WHERE users.id = 9";
-  con.query(sql, function (err, result) {
+  con.query("SELECT * FROM clients", function (err, result, fields) {
     if (err) throw err;
-    console.log("Number of records deleted: " + result.affectedRows);
+    console.log(result);
   });
 });

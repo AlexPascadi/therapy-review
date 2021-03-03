@@ -8,11 +8,11 @@ var con = mysql.createConnection({
 });
 
 con.connect(function(err) {
-  if (err) throw err;
-  var Email = 'cookamy@outlook.com';
-  var sql = "SELECT * FROM users WHERE FirstName LIKE 'Z%' OR Email = ?";
-  con.query(sql, [Email], function (err, result) {
     if (err) throw err;
-    console.log(result);
+    console.log("Connected!");
+    var sql = "ALTER TABLE users RENAME TO clients";
+    con.query(sql, function (err, result) {
+      if (err) throw err;
+      console.log("Table created");
+    });
   });
-});

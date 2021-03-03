@@ -9,9 +9,10 @@ var con = mysql.createConnection({
 
 con.connect(function(err) {
   if (err) throw err;
-  var sql = "UPDATE users SET Email = 'zsolh@gmail.com' WHERE users.id = 1";
-  con.query(sql, function (err, result) {
+  var Email = 'cookamy@outlook.com';
+  var sql = "SELECT * FROM clients WHERE FirstName LIKE 'Z%' OR Email = ?";
+  con.query(sql, [Email], function (err, result) {
     if (err) throw err;
-    console.log(result.affectedRows + " record(s) updated");
+    console.log(result);
   });
 });

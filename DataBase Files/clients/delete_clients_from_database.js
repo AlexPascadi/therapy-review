@@ -8,11 +8,10 @@ var con = mysql.createConnection({
 });
 
 con.connect(function(err) {
+  if (err) throw err;
+  var sql = "DELETE FROM clients WHERE clients.id = 9";
+  con.query(sql, function (err, result) {
     if (err) throw err;
-    console.log("Connected!");
-    var sql = "ALTER TABLE users DROP COLUMN ImageLocation";
-    con.query(sql, function (err, result) {
-      if (err) throw err;
-      console.log("Table created");
-    });
+    console.log("Number of records deleted: " + result.affectedRows);
   });
+});
