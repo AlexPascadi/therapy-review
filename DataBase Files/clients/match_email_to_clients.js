@@ -9,7 +9,9 @@ var con = mysql.createConnection({
 
 con.connect(function(err) {
   if (err) throw err;
-  con.query("SELECT * FROM clients ORDER BY Password", function (err, result) {
+  var Email = 'cookamy@outlook.com';
+  var sql = "SELECT clients.id FROM clients WHERE Email = ?";
+  con.query(sql, [Email], function (err, result) {
     if (err) throw err;
     console.log(result);
   });
