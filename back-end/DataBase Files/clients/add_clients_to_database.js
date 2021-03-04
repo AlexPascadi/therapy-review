@@ -10,11 +10,12 @@ var con = mysql.createConnection({
 con.connect(function(err) {
   if (err) throw err;
   console.log("Connected!");
-  var sql = "INSERT INTO reviews (Message, User, Therapist) VALUES ?";
+  var sql = "INSERT INTO clients (FirstName, LastName, Email, Password) VALUES ?";
   var values = [
-    ['Amazing Therapist!', 1, 2],
-    ['One word: Fantastic!', 3, 1],
-    ['Very Bad!', 2, 1],
+    ['Zeid', 'Solh', 'zeidsolh1@gmail.com', 'dinosaur'],
+    ['Max', 'Lisbon', 'maxlisbon@hotmail.com', 'butterfly'],
+    ['Amy', 'Cook', 'cookamy@outlook.com', 'fireballs'],
+    ['Hannah', 'Beckham', 'hannahbecky@gmail.com', 'princess123'],
   ];
   con.query(sql, [values], function (err, result) {
     if (err) throw err;

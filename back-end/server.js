@@ -22,6 +22,7 @@ con.connect(err => {
 // Demo mini-database (hard-coded, for a model and testing purposes):
 const clients = [
     {
+        id: 0,
         email: 'alexpascadi@ucla.edu', // unique identifier
         first_name: 'Alex',
         last_name: 'Pascadi',
@@ -30,6 +31,7 @@ const clients = [
 ]
 const therapists = [
     {
+        id: 0,
         email: 'johnsmith@gmail.com', // unique identifier
         first_name: 'John',
         last_name: 'Smith',
@@ -59,8 +61,6 @@ const favorites = [
         therapist_id: 'johnsmith@gmail.com',
     }
 ]
-let current_review_id = 1;
-let current_favorite_id = 1;
 
 // API calls
 server.get('/', (req, res) => {
@@ -68,31 +68,44 @@ server.get('/', (req, res) => {
 });
 
 // GET requests:
-// - Retrieve a therapist's info given ID (email):
+// - Retrieve a therapist's info given id:
 //      GET /therapists/<therapist id>
-// - Retrieve a client's info given ID (email):
+// - Retrieve a client's info given id:
 //      GET /clients/<client id>
-// - Retrieve all reviews written about a therapist 
-//   (sorted by date?)
-//      GET /reviews/therapist/<therapist id (email)>
-// - Search for therapist by name, retrieve ordered list
-//   of first few best matches (each is a therapist email):
-//      GET /therapists/<string to match> 
-//      (to be done, need DB for this) 
+// - Retrieve a client's info given email:
+//      GET /clients/email/<client email>
+// - Retrieve all reviews written about a therapist
+//   (sorted by date):
+//      GET /reviews/therapist/<therapist id>
+// - Retrieve the average rating of a therapist:
+//      GET /average_rating/<therapist id>
+// - Search for therapist by info, retrieve list of matches
+//   (sorted by average ratings):
+//      GET /therapists/<name>/<location>/<specialities>
 
 //Alex
 server.get('/therapists/:therapist_id', (req, res) => {
-    const email = req.params.therapist_id;
-    var sql = "SELECT * FROM therapists WHERE Email = ?";
-    con.query(sql, [email], function (err, result) {
+    const id = parseInt(req.params.therapist_id);
+    var sql = "SELECT * FROM therapists WHERE id = ?";
+    con.query(sql, [id], function (err, result) {
+        if (err) throw err;
+        res.send(result[0]); // Return unique result rather than a list
+    });
+});
+
+//Alex
+server.get('/clients/:client_id', (req, res) => {
+    const id = parseInt(req.params.client_id);
+    var sql = "SELECT * FROM clients WHERE id = ?";
+    con.query(sql, [id], function (err, result) {
         if (err) throw err;
         res.send(result[0]); // Return unique result rather than a list
     });
 });
 
 //Laurence
-server.get('/clients/:client_id', (req, res) => {
-    const email = req.params.client_id;
+server.get('/clients/email/:client_email', (req, res) => {
+    const email = req.params.client_email;
     var sql = "SELECT * FROM clients WHERE Email = ?";
     con.query(sql, [email], function (err, result) {
         if (err) throw err;
@@ -100,37 +113,11 @@ server.get('/clients/:client_id', (req, res) => {
     });
 });
 
-/* server.get('/reviews/:review_id', (req, res) => {
-    const review_id = parseInt(req.params.review_id);
-    found = false;
-    for (let i = 0; i < reviews.length; i++) {
-        if (reviews[i].id === review_id) {
-            res.send(reviews[i]);
-            found = true;
-        }
-    }
-    if (!found) {
-        res.send({ success: false });
-    }
-}); */
-
-/* server.get('/reviews/client/:client_id', (req, res) => {
-    const client_id = req.params.client_id;
-    revs = [];
-    for (let i = 0; i < reviews.length; i++) {
-        if (reviews[i].client_id === client_id) {
-            revs.push(reviews[i].id);
-            found = true;
-        }
-    }
-    res.send(revs);
-}); */
-
 //Laurence
 server.get('/reviews/therapist/:therapist_id', (req, res) => {
     // Return a list of FULL reviews (about a therapist) rather than a list of IDs!
     // You should also sort them by their date somehow (talk to Zeid about date format in DB)
-    const therapist_id = req.params.therapist_id;
+    const therapist_id = parseInt(req.params.therapist_id);
     revs = [];
     for (let i = 0; i < reviews.length; i++) {
         if (reviews[i].therapist_id === therapist_id) {
@@ -141,10 +128,19 @@ server.get('/reviews/therapist/:therapist_id', (req, res) => {
     res.send(revs);
 });
 
+// Optional: add an API to retrieve all reviews written by a given client
+
+//Laurence
+server.get('/average_rating/:therapist_id', (req, res) => {
+    const therapist_id = parseInt(req.params.therapist_id);
+    // Use the previous function and take an average over the reviews' ratings
+    res.send('Computing the average rating...');
+});
+
 //Alex
 server.get('/therapists/:name/:location/:specialities', (req, res) => {
-    //To be done
-    //If no matches, return empty list
+    // Can do multiple DB searches in one call!
+    // Sort the list by average ratings!
     res.send('Searching for matching therapists...');
 });
 
@@ -158,28 +154,17 @@ server.get('/therapists/:name/:location/:specialities', (req, res) => {
 
 //Alex
 server.post('/clients', (req, res) => {
-    const client = req.body;
-    client.favorites = [];
-    clients.push(client);
     res.send({ success: true });
 });
 
 //Alex
 server.post('/reviews', (req, res) => {
     // Also add a date upon creation!
-    const review = req.body;
-    review.id = current_review_id;
-    current_review_id++;
-    reviews.push(review);
     res.send({ success: true });
 });
 
 //Alex
 server.post('/favorites', (req, res) => {
-    const favorite = req.body;
-    favorite.id = current_favorite_id;
-    current_favorite_id++;
-    favorites.push(favorite);
     res.send({ success: true });
 });
 
@@ -189,10 +174,10 @@ server.post('/favorites', (req, res) => {
 // (could use PUT as well, look into differences)
 
 /* server.patch('/clients/:client_id', (req, res) => {
-    const client_id = req.params.client_id;
+    const client_id = parseInt(req.params.client_id);
 
     for (let i = 0; i < clients.length; i++) {
-        if (clients[i].email === client_id) {
+        if (clients[i].id === client_id) {
             Object.assign(clients[i], req.body);
             res.send({ success: true });
         }
@@ -209,10 +194,10 @@ server.post('/favorites', (req, res) => {
 
 //Laurence
 server.delete('/clients/:client_id', (req, res) => {
-    const client_id = req.params.client_id;
+    const client_id = parseInt(req.params.client_id);
 
     for (let i = 0; i < clients.length; i++) {
-        if (clients[i].email === client_id) {
+        if (clients[i].id === client_id) {
             clients.splice(i, 1);
             res.send({ success: true });
         }

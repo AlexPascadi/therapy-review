@@ -9,10 +9,9 @@ var con = mysql.createConnection({
 
 con.connect(function(err) {
   if (err) throw err;
-  var sql = "SELECT reviews.Message AS Review, users.Email AS User, therapists.Email AS Therapist FROM reviews JOIN users ON reviews.User = users.id JOIN therapists ON reviews.Therapist = therapists.id";
-  //therapists.Email AS Therapist FROM reviews JOIN therapists ON reviews.Therapist = therapists.id";
+  var sql = "ALTER TABLE favorites RENAME COLUMN User to Client";
   con.query(sql, function (err, result) {
     if (err) throw err;
-    console.log(result);
+    console.log(result.affectedRows + " record(s) updated");
   });
 });

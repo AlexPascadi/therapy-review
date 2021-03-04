@@ -8,11 +8,11 @@ var con = mysql.createConnection({
 });
 
 con.connect(function(err) {
+  if (err) throw err;
+  var Email = 'cookamy@outlook.com';
+  var sql = "SELECT clients.id FROM clients WHERE Email = ?";
+  con.query(sql, [Email], function (err, result) {
     if (err) throw err;
-    console.log("Connected!");
-    var sql = "ALTER TABLE users ADD COLUMN ImageLocation varchar(255)";
-    con.query(sql, function (err, result) {
-      if (err) throw err;
-      console.log("Table created");
-    });
+    console.log(result);
   });
+});

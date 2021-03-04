@@ -8,9 +8,11 @@ var con = mysql.createConnection({
 });
 
 con.connect(function(err) {
-  if (err) throw err;
-  con.query("SELECT Therapist FROM favorites WHERE User = 1", function (err, result, fields) {
     if (err) throw err;
-    console.log(result);
+    console.log("Connected!");
+    var sql = "ALTER TABLE users RENAME TO clients";
+    con.query(sql, function (err, result) {
+      if (err) throw err;
+      console.log("Table created");
+    });
   });
-});

@@ -9,15 +9,10 @@ var con = mysql.createConnection({
 
 con.connect(function(err) {
   if (err) throw err;
-  console.log("Connected!");
-  var sql = "INSERT INTO favorites (User, Therapist) VALUES ?";
-  var values = [
-    [1, 2],
-    [3, 1],
-    [1, 1],
-  ];
-  con.query(sql, [values], function (err, result) {
+  var Email = 'cookamy@outlook.com';
+  var sql = "SELECT * FROM clients WHERE FirstName LIKE 'Z%' OR Email = ?";
+  con.query(sql, [Email], function (err, result) {
     if (err) throw err;
-    console.log("Number of records inserted: " + result.affectedRows);
+    console.log(result);
   });
 });

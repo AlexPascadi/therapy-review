@@ -9,9 +9,9 @@ var con = mysql.createConnection({
 
 con.connect(function(err) {
   if (err) throw err;
-  var sql = "DROP TABLE IF EXISTS users";
+  var sql = "ALTER TABLE therapists ADD ImageLocation VARCHAR(255)";
   con.query(sql, function (err, result) {
     if (err) throw err;
-    console.log(result);
+    console.log(result.affectedRows + " record(s) updated");
   });
 });
