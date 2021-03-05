@@ -23,42 +23,42 @@ con.connect(err => {
 const clients = [
     {
         id: 0,
-        email: 'alexpascadi@ucla.edu', // unique identifier
         first_name: 'Alex',
         last_name: 'Pascadi',
+        email: 'alexpascadi@ucla.edu', 
         password: 'password',
     },
 ]
 const therapists = [
     {
         id: 0,
-        email: 'johnsmith@gmail.com', // unique identifier
         first_name: 'John',
         last_name: 'Smith',
-        location: '520 Portola Plaza, Los Angeles, CA 90095, United States',
+        email: 'johnsmith@gmail.com',
+        address: '520 Portola Plaza, Los Angeles, CA 90095, United States',
         specialities: 'Psychoanalysis',
         experience: 'Experience',
         board_certification: 'Certification',
         description: 'Description',
-        photo: 'photo', // to do: insert .png here
+        image_location: 'photo',
     },
 ]
 const reviews = [
     {
         id: 0,
-        client_id: 'alexpascadi@ucla.edu',
-        therapist_id: 'johnsmith@gmail.com',
+        client: 0, // id of client
+        therapist: 0, // id of therapist
         anonymous: false,
-        date: '01/20/2021',
-        rating: 3, // 1, 2, 3, 4 or 5
+        date_posted: '01/20/2021',
         comment: 'meh',
+        rating: 3, // 1, 2, 3, 4 or 5
     }
 ]
 const favorites = [
     {
         id: 0,
-        client_id: 'alexpascadi@ucla.edu',
-        therapist_id: 'johnsmith@gmail.com',
+        client: 'alexpascadi@ucla.edu',
+        therapist: 'johnsmith@gmail.com',
     }
 ]
 
@@ -74,14 +74,16 @@ server.get('/', (req, res) => {
 //      GET /clients/<client id>
 // - Retrieve a client's info given email:
 //      GET /clients/email/<client email>
+// - Retrieve all the favorites of a client (list of therapists!)
+//      GET /favorites/client/<client id>
 // - Retrieve all reviews written about a therapist
 //   (sorted by date):
 //      GET /reviews/therapist/<therapist id>
 // - Retrieve the average rating of a therapist:
-//      GET /average_rating/<therapist id>
+//      GET /average_rating/therapist/<therapist id>
 // - Search for therapist by info, retrieve list of matches
 //   (sorted by average ratings):
-//      GET /therapists/<name>/<location>/<specialities>
+//      GET /therapists/<names>/<address>/<specialities>
 
 //Alex
 server.get('/therapists/:therapist_id', (req, res) => {
@@ -89,7 +91,10 @@ server.get('/therapists/:therapist_id', (req, res) => {
     var sql = "SELECT * FROM therapists WHERE id = ?";
     con.query(sql, [id], function (err, result) {
         if (err) throw err;
-        res.send(result[0]); // Return unique result rather than a list
+        if (result.length != 1)
+            res.send(null);
+        else
+            res.send(result[0]); // Return unique result rather than a list
     });
 });
 
@@ -99,21 +104,38 @@ server.get('/clients/:client_id', (req, res) => {
     var sql = "SELECT * FROM clients WHERE id = ?";
     con.query(sql, [id], function (err, result) {
         if (err) throw err;
-        res.send(result[0]); // Return unique result rather than a list
+        if (result.length != 1)
+            res.send(null);
+        else
+            res.send(result[0]); // Return unique result rather than a list
     });
 });
 
 //Laurence
 server.get('/clients/email/:client_email', (req, res) => {
     const email = req.params.client_email;
-    var sql = "SELECT * FROM clients WHERE Email = ?";
+    var sql = "SELECT * FROM clients WHERE email = ?";
     con.query(sql, [email], function (err, result) {
         if (err) throw err;
-        res.send(result[0]);
+        if (result.length != 1)
+            res.send(null);
+        else
+            res.send(result[0]);
     });
 });
 
-//Laurence
+//Alex
+server.get('/favorites/client/:client_id', (req, res) => {
+    const client_id = parseInt(req.params.client_id);
+    // Return the list of therapists directly, rather than the list of favorites:
+    var sql = "SELECT * FROM therapists WHERE id IN (SELECT therapist FROM favorites where client = ?)";
+    con.query(sql, [client_id], function (err, result) {
+        if (err) throw err;
+        res.send(result);
+    });
+});
+
+//Laurence (to do)
 server.get('/reviews/therapist/:therapist_id', (req, res) => {
     // Return a list of FULL reviews (about a therapist) rather than a list of IDs!
     // You should also sort them by their date somehow (talk to Zeid about date format in DB)
@@ -122,26 +144,64 @@ server.get('/reviews/therapist/:therapist_id', (req, res) => {
     for (let i = 0; i < reviews.length; i++) {
         if (reviews[i].therapist_id === therapist_id) {
             revs.push(reviews[i].id);
-            found = true;
         }
     }
     res.send(revs);
 });
 
-// Optional: add an API to retrieve all reviews written by a given client
-
-//Laurence
-server.get('/average_rating/:therapist_id', (req, res) => {
+//Laurence (to do)
+server.get('/average_rating/therapist/:therapist_id', (req, res) => {
     const therapist_id = parseInt(req.params.therapist_id);
     // Use the previous function and take an average over the reviews' ratings
     res.send('Computing the average rating...');
 });
 
 //Alex
-server.get('/therapists/:name/:location/:specialities', (req, res) => {
-    // Can do multiple DB searches in one call!
-    // Sort the list by average ratings!
-    res.send('Searching for matching therapists...');
+server.get('/therapists/:names/:address/:specialities', (req, res) => {
+    // Build name condition:
+    var name_cond = "";
+    if (req.params.names == "_")
+        name_cond = "TRUE";
+    else {
+        var names = req.params.names.split("_");
+        for (var i = 0; i < names.length; i++) {
+            if (i > 0)
+                name_cond += " AND ";
+            name_cond += "(first_name LIKE '%" + names[i] + "%'";
+            name_cond += " OR last_name LIKE '%" + names[i] + "%')";
+        }
+    }
+    // Build address condition:
+    var address_cond = "";
+    if (req.params.address == "_")
+        address_cond = "TRUE";
+    else {
+        var address = req.params.address.split("_");
+        for (var i = 0; i < address.length; i++) {
+            if (i > 0)
+                address_cond += " AND ";
+            address_cond += "address LIKE '%" + address[i] + "%'";
+        }
+    }
+    // Build specialities condition:
+    var specialities_cond = "";
+    if (req.params.specialities == "_")
+        specialities_cond = "TRUE";
+    else {
+        var spec = req.params.specialities.split("_");
+        for (var i = 0; i < spec.length; i++) {
+            if (i > 0)
+                specialities_cond += " AND ";
+            specialities_cond += "specialities LIKE '%" + spec[i] + "%'";
+        }
+    }
+    // Query the DataBase:
+    var sql = "SELECT * FROM therapists WHERE (" + name_cond + ")"
+            + " AND (" + address_cond + ") AND (" + specialities_cond + ")";
+    con.query(sql, [], function (err, result) {
+        if (err) throw err;
+        res.send(result);
+    });
 });
 
 // POST requests:
@@ -154,18 +214,38 @@ server.get('/therapists/:name/:location/:specialities', (req, res) => {
 
 //Alex
 server.post('/clients', (req, res) => {
-    res.send({ success: true });
+    var values = [[req.body.first_name, req.body.last_name, req.body.email, req.body.password]];
+    var sql = "INSERT INTO clients (first_name, last_name, email, password) VALUES ?"
+    con.query(sql, [values], function (err, result) {
+        if (err) throw err;
+        console.log("Number of clients inserted: " + result.affectedRows);
+        res.send({ success: true });
+    });
 });
 
 //Alex
 server.post('/reviews', (req, res) => {
-    // Also add a date upon creation!
-    res.send({ success: true });
+    let date = new Date();  // Add a date upon creation too
+    console.log(date);
+    var values = [[req.body.client, req.body.therapist, req.body.anonymous,
+                   date, req.body.comment, req.body.rating]];
+    var sql = "INSERT INTO reviews (client, therapist, anonymous, date_posted, comment, rating) VALUES ?"
+    con.query(sql, [values], function (err, result) {
+        if (err) throw err;
+        console.log("Number of reviews inserted: " + result.affectedRows);
+        res.send({ success: true });
+    });
 });
 
 //Alex
 server.post('/favorites', (req, res) => {
-    res.send({ success: true });
+    var values = [[req.body.client, req.body.therapist]];
+    var sql = "INSERT INTO favorites (client, therapist) VALUES ?"
+    con.query(sql, [values], function (err, result) {
+        if (err) throw err;
+        console.log("Number of favorites inserted: " + result.affectedRows);
+        res.send({ success: true });
+    });
 });
 
 // PATCH requests:
@@ -192,7 +272,7 @@ server.post('/favorites', (req, res) => {
 // - remove from favorites
 //     DELETE /favorites/<favorite id>
 
-//Laurence
+//Laurence (to do)
 server.delete('/clients/:client_id', (req, res) => {
     const client_id = parseInt(req.params.client_id);
 
@@ -204,7 +284,7 @@ server.delete('/clients/:client_id', (req, res) => {
     }
 });
 
-//Laurence
+//Laurence (to do)
 server.delete('/reviews/:review_id', (req, res) => {
     // Ask Zeid how review IDs actually work in the DB
     const review_id = parseInt(req.params.review_id);
@@ -217,7 +297,7 @@ server.delete('/reviews/:review_id', (req, res) => {
     }
 });
 
-//Laurence
+//Laurence (to do)
 server.delete('/favorites/:favorite_id', (req, res) => {
     res.send('deleting from favorites...')
 });
