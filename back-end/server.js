@@ -274,32 +274,39 @@ server.post('/favorites', (req, res) => {
 
 //Laurence (to do)
 server.delete('/clients/:client_id', (req, res) => {
-    const client_id = parseInt(req.params.client_id);
-
-    for (let i = 0; i < clients.length; i++) {
-        if (clients[i].id === client_id) {
-            clients.splice(i, 1);
-            res.send({ success: true });
-        }
-    }
+    con.connect(function(err) {
+        if (err) throw err;
+        var sql = "DELETE FROM clients WHERE client_id = ?";
+        con.query(sql, function (err, result) {
+          if (err) throw err;
+          console.log("Number of records deleted from clients: " + result.affectedRows);
+        });
+      });
 });
 
 //Laurence (to do)
 server.delete('/reviews/:review_id', (req, res) => {
     // Ask Zeid how review IDs actually work in the DB
-    const review_id = parseInt(req.params.review_id);
-
-    for (let i = 0; i < reviews.length; i++) {
-        if (reviews[i].id === review_id) {
-            reviews.splice(i, 1);
-            res.send({ success: true });
-        }
-    }
+    con.connect(function(err) {
+        if (err) throw err;
+        var sql = "DELETE FROM reviews WHERE review_id = ?";
+        con.query(sql, function (err, result) {
+          if (err) throw err;
+          console.log("Number of records deleted from reviews: " + result.affectedRows);
+        });
+      });
 });
 
 //Laurence (to do)
 server.delete('/favorites/:favorite_id', (req, res) => {
-    res.send('deleting from favorites...')
+    con.connect(function(err) {
+        if (err) throw err;
+        var sql = "DELETE FROM favorites WHERE favorites_id = ?";
+        con.query(sql, function (err, result) {
+          if (err) throw err;
+          console.log("Number of records deleted from favorites: " + result.affectedRows);
+        });
+      });
 });
 
 // Starting up the server:
