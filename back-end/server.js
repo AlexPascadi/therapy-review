@@ -272,7 +272,7 @@ server.post('/favorites', (req, res) => {
 // - remove from favorites
 //     DELETE /favorites/<favorite id>
 
-//Laurence (to do)
+//Laurence
 server.delete('/clients/:client_id', (req, res) => {
     con.connect(function(err) {
         if (err) throw err;
@@ -284,7 +284,7 @@ server.delete('/clients/:client_id', (req, res) => {
       });
 });
 
-//Laurence (to do)
+//Laurence
 server.delete('/reviews/:review_id', (req, res) => {
     // Ask Zeid how review IDs actually work in the DB
     con.connect(function(err) {
@@ -297,7 +297,7 @@ server.delete('/reviews/:review_id', (req, res) => {
       });
 });
 
-//Laurence (to do)
+//Laurence
 server.delete('/favorites/:favorite_id', (req, res) => {
     con.connect(function(err) {
         if (err) throw err;
