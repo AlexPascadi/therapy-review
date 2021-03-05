@@ -10,7 +10,7 @@ var con = mysql.createConnection({
 con.connect(function(err) {
   if (err) throw err;
   console.log("Connected!");
-  var sql = "INSERT INTO reviews (Message, Client, Therapist) VALUES ?";
+  var sql = "INSERT INTO reviews (message, client, therapist) VALUES ?";
   var values = [
     ['Amazing Therapist!', 1, 2],
     ['One word: Fantastic!', 3, 1],

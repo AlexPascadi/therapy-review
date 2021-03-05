@@ -10,7 +10,7 @@ var con = mysql.createConnection({
 con.connect(function(err) {
   if (err) throw err;
   console.log("Connected!");
-  var sql = "INSERT INTO favorites (Client, Therapist) VALUES ?";
+  var sql = "INSERT INTO favorites (client, therapist) VALUES ?";
   var values = [
     [1, 2],
     [3, 1],

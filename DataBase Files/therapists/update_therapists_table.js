@@ -9,7 +9,7 @@ var con = mysql.createConnection({
 
 con.connect(function(err) {
   if (err) throw err;
-  var sql = "ALTER TABLE therapists ADD ImageLocation VARCHAR(255)";
+  var sql = "ALTER TABLE therapists RENAME COLUMN ImageLocation TO image_location";
   con.query(sql, function (err, result) {
     if (err) throw err;
     console.log(result.affectedRows + " record(s) updated");

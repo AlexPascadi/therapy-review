@@ -10,7 +10,7 @@ var con = mysql.createConnection({
 con.connect(function(err) {
   if (err) throw err;
   var Email = 'cookamy@outlook.com';
-  var sql = "SELECT clients.id FROM clients WHERE Email = ?";
+  var sql = "SELECT clients.id FROM clients WHERE email = ?";
   con.query(sql, [Email], function (err, result) {
     if (err) throw err;
     console.log(result);

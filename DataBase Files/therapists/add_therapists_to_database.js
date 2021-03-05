@@ -10,7 +10,7 @@ var con = mysql.createConnection({
 con.connect(function(err) {
   if (err) throw err;
   console.log("Connected!");
-  var sql = "INSERT INTO therapists (FirstName, LastName, Email, Password) VALUES ?";
+  var sql = "INSERT INTO therapists (first_name, last_name, email, password) VALUES ?";
   var values = [
     ['Rachel', 'Alvarez', 'rachelalvarez@gmail.com', 'sunset0'],
     ['Jay', 'Brown', 'brownjay@hotmail.com', 'snickers'],

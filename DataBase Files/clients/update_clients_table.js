@@ -9,10 +9,9 @@ var con = mysql.createConnection({
 
 con.connect(function(err) {
   if (err) throw err;
-  var sql = "ALTER TABLE reviews RENAME COLUMN Rating TO rating";
+  var sql = "ALTER TABLE clients RENAME COLUMN Password to password";
   con.query(sql, function (err, result) {
     if (err) throw err;
     console.log(result.affectedRows + " record(s) updated");
   });
 });
-

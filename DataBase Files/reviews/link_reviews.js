@@ -9,8 +9,7 @@ var con = mysql.createConnection({
 
 con.connect(function(err) {
   if (err) throw err;
-  var sql = "SELECT reviews.Comment AS Comment, clients.Email AS Client, therapists.Email AS Therapist FROM reviews JOIN clients ON reviews.Client = clients.id JOIN therapists ON reviews.Therapist = therapists.id";
-  //therapists.Email AS Therapist FROM reviews JOIN therapists ON reviews.Therapist = therapists.id";
+  var sql = "SELECT reviews.comment AS comment, clients.email AS client, therapists.email AS therapist FROM reviews JOIN clients ON reviews.client = clients.id JOIN therapists ON reviews.therapist = therapists.id";
   con.query(sql, function (err, result) {
     if (err) throw err;
     console.log(result);

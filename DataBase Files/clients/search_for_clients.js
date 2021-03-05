@@ -9,8 +9,8 @@ var con = mysql.createConnection({
 
 con.connect(function(err) {
   if (err) throw err;
-  var Email = 'cookamy@outlook.com';
-  var sql = "SELECT * FROM clients WHERE FirstName LIKE 'Z%' OR Email = ?";
+  var email = 'cookamy@outlook.com';
+  var sql = "SELECT * FROM clients WHERE first_name LIKE 'Z%' OR email = ?";
   con.query(sql, [Email], function (err, result) {
     if (err) throw err;
     console.log(result);

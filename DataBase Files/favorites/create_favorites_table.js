@@ -10,7 +10,7 @@ var con = mysql.createConnection({
 con.connect(function(err) {
     if (err) throw err;
     console.log("Connected!");
-    var sql = "CREATE TABLE favorites (id INT AUTO_INCREMENT PRIMARY KEY, Client INT, Therapist INT)";
+    var sql = "CREATE TABLE favorites (id INT AUTO_INCREMENT PRIMARY KEY, client INT, therapist INT)";
     con.query(sql, function (err, result) {
       if (err) throw err;
       console.log("Table created");

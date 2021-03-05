@@ -9,7 +9,7 @@ var con = mysql.createConnection({
 
 con.connect(function(err) {
   if (err) throw err;
-  var sql = "ALTER TABLE favorites RENAME COLUMN User to Client";
+  var sql = "ALTER TABLE favorites RENAME COLUMN Therapist to therapist";
   con.query(sql, function (err, result) {
     if (err) throw err;
     console.log(result.affectedRows + " record(s) updated");
