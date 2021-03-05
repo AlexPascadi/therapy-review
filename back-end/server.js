@@ -135,18 +135,16 @@ server.get('/favorites/client/:client_id', (req, res) => {
     });
 });
 
-//Laurence (to do)
+//Laurence
 server.get('/reviews/therapist/:therapist_id', (req, res) => {
     // Return a list of FULL reviews (about a therapist) rather than a list of IDs!
     // You should also sort them by their date somehow (talk to Zeid about date format in DB)
     const therapist_id = parseInt(req.params.therapist_id);
-    revs = [];
-    for (let i = 0; i < reviews.length; i++) {
-        if (reviews[i].therapist_id === therapist_id) {
-            revs.push(reviews[i].id);
-        }
-    }
-    res.send(revs);
+    var sql = "SELECT * FROM reviews WHERE therapist = ? ORDER BY date_posted";
+    con.query(sql, [therapist_id], function (err, result) {
+        if (err) throw err;
+        res.send(result);
+    });
 });
 
 //Laurence (to do)
@@ -276,7 +274,7 @@ server.post('/favorites', (req, res) => {
 server.delete('/clients/:client_id', (req, res) => {
     con.connect(function(err) {
         if (err) throw err;
-        var sql = "DELETE FROM clients WHERE client_id = ?";
+        var sql = "DELETE FROM clients WHERE clients.id = ?";
         con.query(sql, function (err, result) {
           if (err) throw err;
           console.log("Number of records deleted from clients: " + result.affectedRows);
@@ -289,7 +287,7 @@ server.delete('/reviews/:review_id', (req, res) => {
     // Ask Zeid how review IDs actually work in the DB
     con.connect(function(err) {
         if (err) throw err;
-        var sql = "DELETE FROM reviews WHERE review_id = ?";
+        var sql = "DELETE FROM reviews WHERE reviews.id = ?";
         con.query(sql, function (err, result) {
           if (err) throw err;
           console.log("Number of records deleted from reviews: " + result.affectedRows);
@@ -301,7 +299,7 @@ server.delete('/reviews/:review_id', (req, res) => {
 server.delete('/favorites/:favorite_id', (req, res) => {
     con.connect(function(err) {
         if (err) throw err;
-        var sql = "DELETE FROM favorites WHERE favorites_id = ?";
+        var sql = "DELETE FROM favorites WHERE favorites.id = ?";
         con.query(sql, function (err, result) {
           if (err) throw err;
           console.log("Number of records deleted from favorites: " + result.affectedRows);
