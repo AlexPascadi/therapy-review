@@ -9,10 +9,10 @@ var con = mysql.createConnection({
 
 con.connect(function(err) {
   if (err) throw err;
-  var email = 'cookamy@outlook.com';
-  var sql = "SELECT clients.id FROM clients WHERE email = ?";
-  con.query(sql, [email], function (err, result) {
+  var id = 5;
+  var sql = "DELETE FROM reviews WHERE id = ?";
+  con.query(sql, [id], function (err, result) {
     if (err) throw err;
-    console.log(result);
+    console.log("Number of records deleted: " + result.affectedRows);
   });
 });

@@ -272,43 +272,36 @@ server.post('/favorites', (req, res) => {
 
 //Laurence
 server.delete('/clients/:client_id', (req, res) => {
-    con.connect(function(err) {
+    const client_id = parseInt(req.params.client_id);
+    var sql = "DELETE FROM clients WHERE clients.id = ?";
+    con.query(sql, [client_id], function (err, result) {
         if (err) throw err;
-        var sql = "DELETE FROM clients WHERE clients.id = ?";
-        con.query(sql, function (err, result) {
-          if (err) throw err;
-          console.log("Number of records deleted from clients: " + result.affectedRows);
-        });
-      });
+        console.log("Number of records deleted from clients: " + result.affectedRows);
+    });
 });
 
 //Laurence
 server.delete('/reviews/:review_id', (req, res) => {
     // Ask Zeid how review IDs actually work in the DB
-    con.connect(function(err) {
+    const review_id = parseInt(req.params.review_id);
+    var sql = "DELETE FROM reviews WHERE reviews.id = ?";
+    con.query(sql, [review_id], function (err, result) {
         if (err) throw err;
-        var sql = "DELETE FROM reviews WHERE reviews.id = ?";
-        con.query(sql, function (err, result) {
-          if (err) throw err;
-          console.log("Number of records deleted from reviews: " + result.affectedRows);
-        });
-      });
+        console.log("Number of records deleted from reviews: " + result.affectedRows);
+    });
 });
 
 //Laurence
 server.delete('/favorites/:favorite_id', (req, res) => {
-    con.connect(function(err) {
+    const favorite_id = parseInt(req.params.favorite_id);
+    var sql = "DELETE FROM favorites WHERE favorites.id = ?";
+    con.query(sql, [favorite_id], function (err, result) {
         if (err) throw err;
-        var sql = "DELETE FROM favorites WHERE favorites.id = ?";
-        con.query(sql, function (err, result) {
-          if (err) throw err;
-          console.log("Number of records deleted from favorites: " + result.affectedRows);
-        });
-      });
+        console.log("Number of records deleted from reviews: " + result.affectedRows);
+    });
 });
 
 // Starting up the server:
 server.listen(3000, () => {
     console.log('Server has started');
 });
-
