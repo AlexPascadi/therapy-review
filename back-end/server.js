@@ -147,11 +147,14 @@ server.get('/reviews/therapist/:therapist_id', (req, res) => {
     });
 });
 
-//Laurence (to do)
+//Laurence
 server.get('/average_rating/therapist/:therapist_id', (req, res) => {
     const therapist_id = parseInt(req.params.therapist_id);
-    // Use the previous function and take an average over the reviews' ratings
-    res.send('Computing the average rating...');
+    var sql = "SELECT AVG(rating) AS average_rating FROM reviews WHERE therapist = ?";
+    con.query(sql, [therapist_id], function (err, result) {
+        if (err) throw err;
+        res.send(result);
+    });
 });
 
 //Alex
