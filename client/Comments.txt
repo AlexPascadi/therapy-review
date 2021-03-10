@@ -24,3 +24,4 @@ All the files and places where I call an array:
     >In MyFavoritesGenerator.jsx- I use the myFavoritesArray to yield the myFavorites on line 21.
     
   -Under the Read_More_Reviews_Page:
+    >In MoreReviewsGenerator- line 21. I use the ReviewArray to render the reviews of the therapist from the name I get from the ReadMoreReviewsPage
