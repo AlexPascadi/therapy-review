@@ -1,0 +1,26 @@
+Please ensure that the backend sends information in the form indicated by the arrays. There are 3 main arrays:
+  -TherapistIconArray in ./src/components/Detailed_Account_Page/DetailedAccountPageArrays
+    > This array consists of js objects with info about how the icons for in-person and online visits should be rendered along with an array of therapists that offer in       person visits and online visits.
+    
+  -ReviewArray in ./src/components/Detailed_Account_Page/DetailedAccountPageArrays
+    > This array consists of js objects with ALL the information associated with a therapist. All other pages that render any therapist info read from this array.
+    
+  -MyFavoritesArray in ./src/components/My_Account_Page/MyAccountPageArrays.jsx
+    > This array consists of js objects that consist of the favorites associated with an account. The account is tracked via email.
+
+All the files and places where I call an array:
+  -Under the Detailed_Account_Page:
+    > In DisplayedReviewGenerator- line 20. I use it to render the top 2 reviews onto the Detailed Account Page of the therapist read from ReviewArray. I get the               therapist's name from 
+    > In EducationAndBgAdditionalInfo- line 18. I use it to render all the information about the qualifications and education of the therapist from ReviewArray. I get         the name of the therapist from the URL.
+    > In EducationAndBgContainer- line 10. I use it to render the About section of the Education and Background section from the ReviewArray.
+    > In RatingAndReviewContainer- line 11. I use it to render the Rating of the Therapist from the ReviewArray. Right now it is hard-coded so it would be awesome if the       database could fix that.
+    > In TherapistIconGenerator- line 20. I use it to render the Therapist Icons depending on if they offer in-person or online visits from the TherapistIconArray.
+    > In TherapistProfileHeader- line 11. I use it to render the address, specialties, and the name of the therapist in the Profile Header.
+  
+  -Under the Main_Search_Page:
+    >In MainSearchPage.jsx- I use it for the search function and for rendering the list of therapists. You might have to work with me a little to change this because I        will remove the function I am using to sort this stuff and just send a get request when the button is clicked.
+    
+  -Under the My_Account_Page:
+    >In MyFavoritesGenerator.jsx- I use the myFavoritesArray to yield the myFavorites on line 21.
+    
+  -Under the Read_More_Reviews_Page:
