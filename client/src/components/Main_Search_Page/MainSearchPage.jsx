@@ -8,13 +8,9 @@ import {ReviewArray} from '../Detailed_Account_Page/DetailedAcountPageArrays'
 import {v4 as uuidv4} from 'uuid'
 
 function AddTherapist(TherapistObj){
-    console.log("HERE!\n")
     const DesiredSubtitle=TherapistObj.specialities
     const DesiredTitle=TherapistObj.first_name+' '+TherapistObj.last_name
-    let desiredURL = "/average_rating/therapist/" + TherapistObj.id.toString()
-    console.log(desiredURL)
-    let rating= 2 //await fetch("http://localhost:5000" + desiredURL).then((result)=>result.json())
-    const DesiredRatingAndReview=rating.toString() + ' (' + " " + ')'
+    const DesiredRatingAndReview=TherapistObj.rating
     // console.log(DesiredTitle)
     return(
         <TherapistSearchContainer 
@@ -29,10 +25,6 @@ function AddTherapist(TherapistObj){
     )
 }
 
-// const getTherapists = async outcome => {
-//     return Promise.all(outcome.map(AddTherapist))
-// }
-
 function MainSearchPage(props){
     let DesiredArray=ReviewArray
     const [TherapistSearch, setTherapistSearch]=useState({
@@ -43,9 +35,9 @@ function MainSearchPage(props){
 
     const [outcome, setOutcome] = useState([])
     const [handleClickTrigger, setHandleClickTrigger] = useState(true)
+    const [emptySearchMessage, setEmptySearchMessage] = useState("Loading...")
     if (handleClickTrigger===true) {
-        HandleClick()
-        setHandleClickTrigger(false)
+        HandleClick();
     }
 
     async function HandleClick(){
@@ -60,6 +52,8 @@ function MainSearchPage(props){
         let response=await fetch("http://localhost:5000" + desiredURL).then((result)=>result.json())
         setOutcome(response)
         // console.log(response)
+        setHandleClickTrigger(false);
+        setEmptySearchMessage("Sorry! We found no therapists matching your search.")
     }
 
     // function TherapistPicker(element){
@@ -72,14 +66,14 @@ function MainSearchPage(props){
     // }
     // if(DesiredArray===null){return(<h1>Sorry, no matches found</h1>)}
 
-    if (outcome.length === 0 && handleClickTrigger === false){
+    if (outcome.length === 0){
         return(
             <div>
             <MenuBar TherapistSearch={TherapistSearch} setTherapistSearch={setTherapistSearch} onClick={HandleClick} />
              <div className="landing-search-page-body">
              <div className='main-search-page-padder'>
                 {/* console.log(outcome) */}
-                 <h1>Sorry, there are no therapists matching your search.</h1>
+                 <h1>{emptySearchMessage}</h1>
              </div>               
              </div>
          </div>
@@ -91,8 +85,6 @@ function MainSearchPage(props){
             <div className="landing-search-page-body">
             <div className='main-search-page-padder'>
                 {outcome.map(AddTherapist)}
-                {/* Promise.all(outcome.map(item => AddTherapist(item))) */}
-                {/* getTherapists(outcome) */}
             </div>               
             </div>
         </div>
