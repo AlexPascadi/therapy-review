@@ -224,7 +224,7 @@ server.post('/clients', (req, res) => {
     });
 });
 
-/* server.post('/therapists', (req, res) => {
+server.post('/therapists', (req, res) => {
     var values = [[req.body.first_name, req.body.last_name, req.body.email, req.body.password, req.body.address, req.body.specialities, req.body.experience, req.body.board_certification, req.body.description]];
     var sql = "INSERT INTO therapists (first_name, last_name, email, password, address, specialities, experience, board_certification, description) VALUES ?"
     con.query(sql, [values], function (err, result) {
@@ -232,7 +232,7 @@ server.post('/clients', (req, res) => {
         console.log("Number of therapists inserted: " + result.affectedRows);
         res.send({ success: true });
     });
-}); */
+});
 
 //Alex
 server.post('/reviews', (req, res) => {
