@@ -17,11 +17,11 @@ Therapist object example (replace null with appropriate type of data):
   "last_name":"Brown", 
   "email": "brownjay@hotmail.com",
   "password":"snickers",
-  "address": null,
-  "specialities": null,
-  "experience": null,
-  "board_certification": null,
-  "description": null,
+  "address": "40 Park Avenue, New York, NY, 10016",
+  "specialities": "Psychiatrist",
+  "experience": "Medical School - Sackler School of Medicine, Tel Aviv University, Doctor of Medicine_New York University, Bellevue Hospital Center, Residency in Adult Psychiatry and Forensic Psychiatry",
+  "board_certification": "American Board of Psychiatry and Neurology_Forensic Psychiatry (Psychiatry and Neurology)",
+  "description": 'Dr. Raff is a compassionate and experienced physician, whose clinical expertise has its roots in numerous sources, ranging from his studio background in the fine arts to the rigorous psychiatric residencies (adult and forensic) at NYU-Bellevue, additional training in treating adolescents, and his psychoanalytic training at the New York Psychoanalytic Institute. First and foremost, Dr. Raff develops working relationships with his patients based on trust and a desire to help the patient move forward from a particular problem. Working with the patient to identify an issue, understand why he/she is “stuck” in a particular way, and the myriad of factors that contribute to it are all crucial aspects of the process. Treatment may involve talk therapy, psycho-pharmacology, and psychoanalysis or a combination of each. Dr. Raff also has an experience in treating conditions of addiction and substance abuse. For those individuals struggling with opiate addiction, Dr. Raff carries certification in the prescription of Buprenorphine (Suboxone).',
   "image_location": null
 }
 
@@ -55,7 +55,7 @@ Example:
 
 GET '/therapists/<names>/<address>/<specialities>'
 	Returns a LIST of therapist objects matching the search strings.
-*** Replace each space with an underscore '_' before putting it in the URL
+*** Replace each non-digit non-letter with an underscore '_' before putting it in the URL
 *** If a search string is empty, just put an underscore '_' (you can't have two '/'s in a row)
 Example:
 	GET 'therapists/alva_rach/_/_'
