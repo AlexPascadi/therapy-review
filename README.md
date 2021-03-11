@@ -11,6 +11,7 @@ npm install react-router-dom
 
 cd ..
 npm install
+npm install nodemon -g
 
 npm start
 
