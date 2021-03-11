@@ -269,8 +269,8 @@ server.post('/clients', (req, res) => {
 });
 
 server.post('/therapists', (req, res) => {
-    var values = [[req.body.first_name, req.body.last_name, req.body.email, req.body.password, req.body.address, req.body.specialities, req.body.experience, req.body.board_certification, req.body.description]];
-    var sql = "INSERT INTO therapists (first_name, last_name, email, password, address, specialities, experience, board_certification, description) VALUES ?"
+    var values = [[req.body.first_name, req.body.last_name, req.body.email, req.body.online_visits, req.body.in_person_visits, req.body.address, req.body.specialities, req.body.experience, req.body.board_certification, req.body.description]];
+    var sql = "INSERT INTO therapists (first_name, last_name, email, online_visits, in_person_visits, address, specialities, experience, board_certification, description) VALUES ?"
     con.query(sql, [values], function (err, result) {
         if (err) throw err;
         console.log("Number of therapists inserted: " + result.affectedRows);
