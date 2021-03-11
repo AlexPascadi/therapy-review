@@ -9,7 +9,7 @@ var con = mysql.createConnection({
 
 con.connect(function(err) {
   if (err) throw err;
-  var sql = "DELETE FROM clients WHERE id = 12";
+  var sql = "DELETE FROM reviews WHERE id = 2";
   con.query(sql, function (err, result) {
     if (err) throw err;
     console.log("Number of records deleted: " + result.affectedRows);
