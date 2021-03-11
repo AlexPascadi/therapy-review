@@ -1,0 +1,164 @@
+See README file for how to start both the front-end and the server.
+
+Client object example (if the client variable is client[0], 
+you should be able to access their id as client[0].id, and so on):
+{
+  "id": 2,
+  "first_name": "Max",
+  "last_name": "Lisbon",
+  "email": "maxlisbon@hotmail.com",
+  "password": "butterfly"
+}
+
+Therapist object example (replace null with appropriate type of data):
+{
+  "id": 2,
+  "first_name": "Jay",
+  "last_name":"Brown", 
+  "email": "brownjay@hotmail.com",
+  "password":"snickers",
+  "address": null,
+  "specialities": null,
+  "experience": null,
+  "board_certification": null,
+  "description": null,
+  "image_location": null
+}
+
+Review object example (when you display the date, you can just 
+truncate it to the first 10 characters; the format below is how mysql 
+stores it and we're talking directly to the database to get this info):
+{
+  "id": 7,
+  "comment": "Hated it.",
+  "client": 11,		// this is a client id
+  "therapist": 1,	// this is a therapist id
+  "anonymous": 0,	// this is a boolean
+  "date_posted": "2021-03-04T22:00:00.000Z",
+  "rating": 2
+}
+
+//////////////////////////////////////////////////////////////////////////
+	GET REQUESTS
+//////////////////////////////////////////////////////////////////////////
+
+You can test the GET requests by appending the corresponding string to the URL
+localhost:5000, e.g., localhost:5000/therapists/2, after you do npm start.
+
+GET '/therapists/<therapist_id>'
+	Returns a therapist object given their id.
+	If the therapist id isn't in the database, it will return NULL.
+Example:
+	GET '/therapists/2' (just put the ID in the URL by converting integer to string)
+	might return:
+	{"id":2,"first_name":"Jay","last_name":"Brown","email":"brownjay@hotmail.com","password":"snickers","address":null,"specialities":null,"experience":null,"board_certification":null,"description":null,"image_location":null}
+
+GET '/therapists/<names>/<address>/<specialities>'
+	Returns a LIST of therapist objects matching the search strings.
+*** Replace each space with an underscore '_' before putting it in the URL
+*** If a search string is empty, just put an underscore '_' (you can't have two '/'s in a row)
+Example:
+	GET 'therapists/alva_rach/_/_'
+	might return a list with one therapist called Rachel Alvarez, as below:
+	[{"id":1,"first_name":"Rachel","last_name":"Alvarez","email":"rachelalvarez@gmail.com","password":"sunset0","address":null,"specialities":null,"experience":null,"board_certification":null,"description":null,"image_location":null}]
+Example:
+	GET 'therapists/_/_/_'
+	will return a list with all the therapists in the database.
+
+GET '/clients/<client_id>'
+	Same thing but for clients, will return a client object.
+	If the client id isn't in the database, it will return NULL.
+Example:
+	GET '/clients/1'
+	might return:
+	{"id":2,"first_name":"Max","last_name":"Lisbon","email":"maxlisbon@hotmail.com","password":"butterfly"}
+
+GET '/clients/email/<client_email>'
+	Returns a client object given the email.
+	If the client email isn't in the database, it will return NULL.
+Example:
+	GET 'clients/email/alexpascadi@ucla.edu'
+	will return a client object as above.
+
+GET '/favorites/client/<client_id>'
+	Returns a LIST of all therapist objects that are the favorites of the client with that id.
+	The list could be empty.
+Example:
+	GET 'favorites/client/1'
+	might return:
+	[{"id":1,"first_name":"Rachel","last_name":"Alvarez","email":"rachelalvarez@gmail.com","password":"sunset0","address":null,"specialities":null,"experience":null,"board_certification":null,"description":null,"image_location":null},{"id":2,"first_name":"Jay","last_name":"Brown","email":"brownjay@hotmail.com","password":"snickers","address":null,"specialities":null,"experience":null,"board_certification":null,"description":null,"image_location":null}]
+
+GET '/reviews/therapist/<therapist_id>'
+	Returns a LIST of all review objects about the therapist with that id.
+Example:
+	GET 'reviews/therapist/1'
+	might return:
+	[{"id":2,"comment":"One word: Fantastic!","client":3,"therapist":1,"anonymous":null,"date_posted":null,"rating":null},{"id":7,"comment":"Hated it.","client":11,"therapist":1,"anonymous":0,"date_posted":"2021-03-04T22:00:00.000Z","rating":2}]
+
+GET '/average_rating/therapist/<therapist_id>'
+	Returns the average rating of a therapist.
+	You could alternatively get that directly from their list of reviews, if you prefer.
+Example:
+	GET '/average_rating/therapist/2'
+	might return:
+	4
+
+//////////////////////////////////////////////////////////////////////////
+	POST REQUESTS
+//////////////////////////////////////////////////////////////////////////
+
+These are for adding something to the database.
+Besides the URL, the requests you send will also contain a "body".
+
+POST '/clients'
+	Body = a client object, but without the id.
+	Creates a new client in the database with the corresponding data.
+	This is for when you register.
+Example:
+	POST '/clients', with body:
+	{
+	  "first_name": "Max",
+	  "last_name": "Lisbon",
+	  "email": "maxlisbon@hotmail.com",
+	  "password": "butterfly"
+	}
+	will create the client in the database.
+
+POST '/reviews'
+	Body = a review object, but without the id and the date.
+	Creates a new review with the appropriate info.
+Example:
+	POST '/reviews', with body:
+	{
+	  "comment": "Hated it.",
+	  "client": 11,
+	  "therapist": 1,
+	  "anonymous": 0,
+	  "rating": 2
+	}
+
+POST '/favorites'
+	Body = an object like {"client": <client_id>, "therapist": <therapist_id>}
+	Creates a favorite in the database.
+Example:
+	POST '/therapists', with body:
+	{
+	  "client": 1
+	  "therapist": 2
+	}
+
+//////////////////////////////////////////////////////////////////////////
+	DELETE REQUESTS
+//////////////////////////////////////////////////////////////////////////
+
+Do we have such functionality yet in the front-end?
+
+DELETE '/clients/<client_id>'
+	Deletes the client with that id from the database.
+Example:
+	DELETE '/client/1'
+
+DELETE '/reviews/<review_id>'
+	Deletes the review with that id from the database.
+
+We can't currently remove from favorites; let us know if you want to be able to do that.

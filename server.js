@@ -224,7 +224,7 @@ server.post('/clients', (req, res) => {
     });
 });
 
-server.post('/therapists', (req, res) => {
+/* server.post('/therapists', (req, res) => {
     var values = [[req.body.first_name, req.body.last_name, req.body.email, req.body.password, req.body.address, req.body.specialities, req.body.experience, req.body.board_certification, req.body.description]];
     var sql = "INSERT INTO therapists (first_name, last_name, email, password, address, specialities, experience, board_certification, description) VALUES ?"
     con.query(sql, [values], function (err, result) {
@@ -232,7 +232,7 @@ server.post('/therapists', (req, res) => {
         console.log("Number of therapists inserted: " + result.affectedRows);
         res.send({ success: true });
     });
-});
+}); */
 
 //Alex
 server.post('/reviews', (req, res) => {
@@ -305,14 +305,14 @@ server.delete('/reviews/:review_id', (req, res) => {
 });
 
 //Laurence
-server.delete('/favorites/:favorite_id', (req, res) => {
+/* server.delete('/favorites/:favorite_id', (req, res) => {
     const favorite_id = parseInt(req.params.favorite_id);
     var sql = "DELETE FROM favorites WHERE favorites.id = ?";
     con.query(sql, [favorite_id], function (err, result) {
         if (err) throw err;
         console.log("Number of records deleted from reviews: " + result.affectedRows);
     });
-});
+}); */
 
 // Starting up the server:
 server.listen(5000, () => {

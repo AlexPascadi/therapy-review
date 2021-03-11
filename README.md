@@ -1,6 +1,24 @@
-# therapy-review / smart-therapy
+(To be finished)
 
-(To be done)
+How to start the app:
+Install Node.js (and what else does the user need?).
+Clone the git repository into some new folder.
+From the root of your local repository, run the following commands:
+
+cd client
+npm install
+npm install react-router-dom
+
+cd ..
+npm install
+
+npm start
+
+The app should open in localhost:3000
+The server is in localhost:5000
+
+
+
 
 Relevant paragraphs from the project's specification
 (https://web.cs.ucla.edu/classes/winter21/cs97-1/project.html):
