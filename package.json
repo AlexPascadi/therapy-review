@@ -2,7 +2,7 @@
   "name": "therapy-review",
   "version": "1.0.0",
   "scripts": {
-    "start": "concurrently \"cd client && npm start\" \"node server.js \""
+    "start": "concurrently \"cd client && npm start\" \"nodemon server.js \""
   },
   "dependencies": {
     "concurrently": "^4.1.2",

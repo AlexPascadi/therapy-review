@@ -11,6 +11,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 function App(){
     const [isAuthenticated, setisAuthenticated]=useState(false)
+    // const [ViewProfile]
 
     return(
         <BrowserRouter>
@@ -18,7 +19,7 @@ function App(){
                 <Route exact path="/" component={LandingPage}/>
                 <Route exact path="/login" component={LoginPage}/>
                 <Route exact path="/search" component={MainSearchPage}/>
-                <Route exact path="/:therapist" component={Detailed_Account_Page}/>
+                <Route exact path="/:therapistid" component={Detailed_Account_Page}/>
                 <Route exact path="/:therapist/readmorereviews" component={ReadMoreReviewsPage}/>
                 <Route exact path="/:therapist/writeareview" component={WriteAReviewPage}/>
             </Switch>

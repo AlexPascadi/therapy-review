@@ -8,8 +8,8 @@ function MenuBar(props){
     return(
         <div className="menu-bar">
             <MenuBarTitle text='Smart Therapy' />
-            <MenuBarSearchBar TherapistSearch={props.TherapistSearch} setTherapistSearch={props.setTherapistSearch} defaulttext="Search by name, location or keyword" />
-            <MenuBarLoginButton buttontext="Login / Signup" />
+            <MenuBarSearchBar TherapistSearch={props.TherapistSearch} onClick={props.onClick} setTherapistSearch={props.setTherapistSearch} defaulttext="Search by name, location or keyword" />
+            <MenuBarLoginButton buttontext="Login / Signup"/>
         </div>
     )
 }

@@ -8,17 +8,19 @@ import {ReviewArray} from '../Detailed_Account_Page/DetailedAcountPageArrays'
 import {v4 as uuidv4} from 'uuid'
 
 function AddTherapist(TherapistObj){
-    const DesiredSubtitle=TherapistObj.Specialties.reduce((a,x)=>{return a+', '+ x})
-    const DesiredRatingAndReview=TherapistObj.rating+' (' + TherapistObj.ReviewCount()+')'
+    const DesiredSubtitle=TherapistObj.specialties
+    const DesiredTitle=TherapistObj.first_name+' '+TherapistObj.last_name
+    const DesiredRatingAndReview=TherapistObj.rating+ ' (' + TherapistObj.reviewcount + ')'
+    // console.log(DesiredTitle)
     return(
         <TherapistSearchContainer 
-        key={uuidv4()}
-        img={TherapistObj.img}
+        key={TherapistObj.id}
+        img={TherapistObj.image_location}
         alt='Therapist Picture'
-        title={TherapistObj.name} 
+        title={DesiredTitle} 
         subtitle={DesiredSubtitle}
         RatingAndReview={DesiredRatingAndReview}
-        URLdestination={TherapistObj.URLdestination}
+        URLdestination={TherapistObj.id}
         />
 
     )
@@ -30,21 +32,53 @@ function MainSearchPage(props){
         SearchLocation: '',
         SearchSpecialty:''
     })
-    function TherapistPicker(element){
-        const DesiredSubtitle=element.Specialties.reduce((a,x)=>{return a+', '+ x})
-        return (element.name.includes(TherapistSearch.SearchName) && element.address.includes(TherapistSearch.SearchLocation) && DesiredSubtitle.includes(TherapistSearch.SearchSpecialty))
+
+    const [outcome, setOutcome] = useState([])
+
+    async function HandleClick(){
+        let desiredName=TherapistSearch.SearchName.replace('^[a-zA-Z0-9]', '_')
+        let desiredLocation=TherapistSearch.SearchLocation.replace('^[a-zA-Z0-9]', '_')
+        let desiredSpecialty=TherapistSearch.SearchSpecialty.replace('^[a-zA-Z0-9]', '_')
+        if(desiredName===''){desiredName='_'}
+        if(desiredLocation===''){desiredLocation='_'}
+        if(desiredSpecialty===''){desiredSpecialty='_'}
+        let desiredURL='/therapists/'+desiredName+'/'+desiredLocation+'/'+desiredSpecialty
+        let response=await fetch("http://localhost:5000" + desiredURL).then((result)=>result.json())
+        setOutcome(response)
+        // let result=response.json()
+        // console.log(response)
+        // console.log(desiredURL)
     }
-    if(!(TherapistSearch.SearchName==='' && TherapistSearch.SearchLocation==='' && TherapistSearch.SearchSpecialty===''))
-    {
-        DesiredArray=ReviewArray.filter(TherapistPicker)
+
+    // function TherapistPicker(element){
+    //     const DesiredSubtitle=element.Specialties.reduce((a,x)=>{return a+', '+ x})
+    //     return (element.name.includes(TherapistSearch.SearchName) && element.address.includes(TherapistSearch.SearchLocation) && DesiredSubtitle.includes(TherapistSearch.SearchSpecialty))
+    // }
+    // if(!(TherapistSearch.SearchName==='' && TherapistSearch.SearchLocation==='' && TherapistSearch.SearchSpecialty===''))
+    // {
+    //     DesiredArray=ReviewArray.filter(TherapistPicker)
+    // }
+    // if(DesiredArray===null){return(<h1>Sorry, no matches found</h1>)}
+
+    if (outcome===null){
+        return(
+            <div>
+            <MenuBar TherapistSearch={TherapistSearch} setTherapistSearch={setTherapistSearch} onClick={HandleClick} />
+             <div className="landing-search-page-body">
+             <div className='main-search-page-padder'>
+                {/* {console.log(outcome)} */}
+                 <h1>Sorry, the therapist you requested does not exist.</h1>
+             </div>               
+             </div>
+         </div>
+        )
     }
-    if(DesiredArray===null){return(<h1>Sorry, no matches found</h1>)}
     return(
         <div>
-           <MenuBar TherapistSearch={TherapistSearch} setTherapistSearch={setTherapistSearch}/>
+           <MenuBar TherapistSearch={TherapistSearch} setTherapistSearch={setTherapistSearch} onClick={HandleClick} />
             <div className="landing-search-page-body">
             <div className='main-search-page-padder'>
-                {DesiredArray.map(AddTherapist)}
+                {outcome.map(AddTherapist)}
             </div>               
             </div>
         </div>

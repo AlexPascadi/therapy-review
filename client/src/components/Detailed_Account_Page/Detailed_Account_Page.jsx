@@ -14,9 +14,13 @@ import ReadMoreReviewsPage from '../Read_More_Reviews_Page/ReadMoreReviewsPage'
 // require('react-dom');
 // window.React2 = require('react');
 // console.log(window.React1 === window.React2);
-function Detailed_Account_Page(props){
-    // let match= useRouteMatch()
-    // console.log(match)
+async function Detailed_Account_Page(props){
+    const mappingid=props.match.params.therapistid
+    const DesiredURL= '/therapists/' + mappingid
+    let response=await fetch("http://localhost:5000" + DesiredURL).then((result)=>result.json())
+    
+    // console.log(response)
+    const DesiredTitle=response.first_name+ response.last_name
     return(
         <div>
         <div>
@@ -24,9 +28,9 @@ function Detailed_Account_Page(props){
                 <MenuBar />
             </div>
             <div className='landing-search-page-body'>
-               <TherapistProfileHeader title={props.match.params.therapist} />
+               <TherapistProfileHeader img={response.image_location} title={DesiredTitle} specialties={response.specialties} address={response.address} in_person_visits={response.in_person_visits} online_visits={response.online_visits}/>
                 <Styledhr />
-                <RatingAndReviewContainer /*linkparam={url}*/ name={props.match.params.therapist} />
+                <RatingAndReviewContainer /*linkparam={url}*/ rating={response.rating} />
                 <Styledhr />
                 <div className='therapist-info-container'>
                     <EducationAndBgContainer title='Education And Background' name={props.match.params.therapist}/>

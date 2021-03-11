@@ -7,18 +7,16 @@ import {ReviewArray} from './DetailedAcountPageArrays'
 
 
 function TherapistProfileHeader(props){
-    const DesiredTitle=props.title.replace(/_/g,' ')
-    const DesiredArray=ReviewArray.find((x)=>{return x.name===DesiredTitle})
-    const DesiredText=DesiredArray.Specialties.reduce((a,x)=>{return a+', '+x})
+    
    
     return(
         <div className='image-and-title-container'>
             <div>
-                <TherapistImg img={DesiredArray.img} alt='Therapist Picture' />
+                <TherapistImg img={props.img} alt='Therapist Picture' />
             </div>
             <div className='therapist-title-container'>
-                <TherapistTextInfo title={DesiredTitle} text={DesiredText} address={DesiredArray.address} />
-                <TherapistIconGenerator name={DesiredTitle}/>
+                <TherapistTextInfo title={props.title} text={props.specialties} address={props.address} />
+                <TherapistIconGenerator in_person_visits={props.in_person_visits} online_visits={props.online_visits}/>
             </div>
         </div>
     )

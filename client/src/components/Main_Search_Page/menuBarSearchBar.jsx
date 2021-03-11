@@ -46,7 +46,7 @@ function MenuBarSearchBar(props){
             <input name='SearchName' type="text" className="search-name" placeholder="Search by name" style={{fontFamily:'Playfair Display', fontSize: '24px'}} onChange={HandleChange}/>
             <input name='SearchLocation' type="text" className="search-location" placeholder="Location" style={{fontFamily: 'Playfair Display', fontSize: '24px'}} onChange={HandleChange}/>
             <input name='SearchSpecialty' type="text" className="search-specialty" placeholder="Specialties" style={{fontFamily: 'Playfair Display', fontSize: '24px'}} onChange={HandleChange}/>
-            <button type="button" className="search-icon">
+            <button type="button" className="search-icon" onClick={props.onClick}>
                 <img className="search-btn" src={SearchSymbol} alt="Search button" />
             </button>
         </div>
