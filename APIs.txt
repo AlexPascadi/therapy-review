@@ -23,7 +23,7 @@ Therapist object example (replace null with appropriate type of data):
   "board_certification": "American Board of Psychiatry and Neurology_Forensic Psychiatry (Psychiatry and Neurology)",
   "description": 'Dr. Raff is a compassionate and experienced physician, whose clinical expertise has its roots in numerous sources, ranging from his studio background in the fine arts to the rigorous psychiatric residencies (adult and forensic) at NYU-Bellevue, additional training in treating adolescents, and his psychoanalytic training at the New York Psychoanalytic Institute. First and foremost, Dr. Raff develops working relationships with his patients based on trust and a desire to help the patient move forward from a particular problem. Working with the patient to identify an issue, understand why he/she is “stuck” in a particular way, and the myriad of factors that contribute to it are all crucial aspects of the process. Treatment may involve talk therapy, psycho-pharmacology, and psychoanalysis or a combination of each. Dr. Raff also has an experience in treating conditions of addiction and substance abuse. For those individuals struggling with opiate addiction, Dr. Raff carries certification in the prescription of Buprenorphine (Suboxone).',
   "image_location": null,
-  "rating_and_review" : "{average rating of therapist}, {number of reviews they have}" (example: "3.75 (4)")
+  "rating_and_review" : "{average rating of therapist} ({number of reviews they have})" (example: "3.75 (4)")
 }
 
 Review object example (when you display the date, you can just 
