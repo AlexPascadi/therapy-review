@@ -95,20 +95,20 @@ function queryDatabase(sql) {
 }
 
 server.get('/therapists/:therapist_id', async (req, res) => {
-    const id = parseInt(req.params.therapist_id);
-    var sql = "SELECT * FROM therapists WHERE id = " + id.toString();
+    const id_string = req.params.therapist_id;
+    var sql = "SELECT * FROM therapists WHERE id = " + id_string;
     var result = await queryDatabase(sql);
     var ther = result[0];
     // Get rating too:
     var rating = "";
     // Average rating
     var sql1 = "SELECT AVG(rating) AS avg FROM reviews WHERE therapist = "
-                + id.toString();
+                + id_string;
     result = await queryDatabase(sql1);
     rating += result[0].avg.toString();
     // Count
     var sql2 = "SELECT COUNT(DISTINCT id) AS cnt FROM reviews WHERE therapist = "
-                 + id.toString();
+                 + id_string;
     result = await queryDatabase(sql2);
     rating += " (" + result[0].cnt.toString() + ")";
     ther.rating = rating;
@@ -139,14 +139,34 @@ server.get('/clients/email/:client_email', (req, res) => {
     });
 });
 
-server.get('/favorites/client/:client_id', (req, res) => {
-    const client_id = parseInt(req.params.client_id);
+server.get('/favorites/client/:client_id', async (req, res) => {
+    const client_id_string = req.params.client_id;
     // Return the list of therapists directly, rather than the list of favorites:
-    var sql = "SELECT * FROM therapists WHERE id IN (SELECT therapist FROM favorites where client = ?)";
-    con.query(sql, [client_id], function (err, result) {
-        if (err) throw err;
-        res.send(result);
+    var sql = "SELECT * FROM therapists WHERE id IN (SELECT therapist FROM favorites where client = "
+                + client_id_string + ")";
+    var ther;
+    await queryDatabase(sql).then(function(results) {
+        ther = results;
+    }).catch(function(err) {
+        console.log("Promise rejection error: " + err);
     });
+
+    // Get ratings too:
+    for (var i = 0; i < ther.length; i++) {
+        var rating = "";
+        // Average rating
+        var sql1 = "SELECT AVG(rating) AS avg FROM reviews WHERE therapist = "
+                    + ther[i].id.toString();
+        var result = await queryDatabase(sql1);
+        rating += result[0].avg.toString();
+        // Count
+        var sql2 = "SELECT COUNT(DISTINCT id) AS cnt FROM reviews WHERE therapist = "
+                    + ther[i].id.toString();
+        result = await queryDatabase(sql2);
+        rating += " (" + result[0].cnt.toString() + ")";
+        ther[i].rating = rating;
+    }
+    res.send(ther);
 });
 
 server.get('/reviews/therapist/:therapist_id', (req, res) => {

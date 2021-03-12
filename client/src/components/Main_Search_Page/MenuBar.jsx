@@ -9,7 +9,7 @@ function MenuBar(props){
         <div className="menu-bar">
             <MenuBarTitle text='Smart Therapy' />
             <MenuBarSearchBar TherapistSearch={props.TherapistSearch} onClick={props.onClick} setTherapistSearch={props.setTherapistSearch} defaulttext="Search by name, location or keyword" />
-            <MenuBarLoginButton buttontext="Login / Signup"/>
+            <MenuBarLoginButton  clientid={props.clientid} isAuthenticated={props.isAuthenticated}/>
         </div>
     )
 }

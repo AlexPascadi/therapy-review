@@ -27,6 +27,7 @@ function AddTherapist(TherapistObj){
 
 function MainSearchPage(props){
     let DesiredArray=ReviewArray
+    // const isAuthenticated=props.authHook[0]
     const [TherapistSearch, setTherapistSearch]=useState({
         SearchName: '',
         SearchLocation: '',
@@ -69,7 +70,7 @@ function MainSearchPage(props){
     if (outcome.length === 0){
         return(
             <div>
-            <MenuBar TherapistSearch={TherapistSearch} setTherapistSearch={setTherapistSearch} onClick={HandleClick} />
+            <MenuBar TherapistSearch={TherapistSearch} setTherapistSearch={setTherapistSearch} onClick={HandleClick} isAuthenticated={props.isAuthenticated} clientid={props.clientid}/>
              <div className="landing-search-page-body">
              <div className='main-search-page-padder'>
                 {/* console.log(outcome) */}
@@ -81,7 +82,7 @@ function MainSearchPage(props){
     }
     return(
         <div>
-           <MenuBar TherapistSearch={TherapistSearch} setTherapistSearch={setTherapistSearch} onClick={HandleClick} />
+           <MenuBar TherapistSearch={TherapistSearch} setTherapistSearch={setTherapistSearch} onClick={HandleClick} isAuthenticated={props.isAuthenticated} clientid={props.clientid}/>
             <div className="landing-search-page-body">
             <div className='main-search-page-padder'>
                 {outcome.map(AddTherapist)}

@@ -5,7 +5,7 @@ function FormEntry(props){
     return(
         <div>
             <label className="formlabel">{props.title} </label>
-            <input type="text" placeholder={props.title} className="form-entry"/>
+            <input type="text" placeholder={props.title} className="form-entry" onChange={(e) => props.handleChange(e, props.inputType)}/>
         </div>
     )
 }
