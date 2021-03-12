@@ -108,13 +108,9 @@ server.get('/therapists/:therapist_id', async (req, res) => {
     rating += result[0].avg.toString();
     // Count
     var sql2 = "SELECT COUNT(DISTINCT id) AS cnt FROM reviews WHERE therapist = "
-                 + ther[i].id.toString();
+                 + id.toString();
     result = await queryDatabase(sql2);
-    rating += " (from " + result[0].cnt.toString();
-    if (result[0].cnt == 1)
-        rating += " review)";
-    else 
-        rating += " reviews)";
+    rating += " (" + result[0].cnt.toString() + ")";
     ther.rating = rating;
     res.send(ther);
 });
@@ -235,11 +231,7 @@ server.get('/therapists/:names/:address/:specialities', async (req, res) => {
         var sql2 = "SELECT COUNT(DISTINCT id) AS cnt FROM reviews WHERE therapist = "
                     + ther[i].id.toString();
         result = await queryDatabase(sql2);
-        rating += " (from " + result[0].cnt.toString();
-        if (result[0].cnt == 1)
-            rating += " review)";
-        else 
-            rating += " reviews)";
+        rating += " (" + result[0].cnt.toString() + ")";
         ther[i].rating = rating;
     }
     res.send(ther);
