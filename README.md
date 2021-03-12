@@ -1,6 +1,6 @@
 Necessary technologies to download:
-Install Node.js from https://nodejs.org/en/, make sure to select the correct version that depends on the operating system
-Broswer that was used to clone the application from GitHub, note that the application when started will run on the default system broswer if not specified
+1. Install Node.js from https://nodejs.org/en/, make sure to select the correct version that depends on the operating system
+2. Broswer that was used to clone the application from GitHub, note that the application when started will run on the default system broswer if not specified
 
 How to start the app (after cloning in a folder):
 1. Open the terminal commnand line
