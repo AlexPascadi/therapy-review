@@ -23,6 +23,62 @@ function WriteAReviewPage(props){
     //     return checkURLDestination===element.URLdestination
     // }
     // const DesiredArray=ReviewArray.find(ReviewPicker)
+    const[Rating, setRating]=useState(0)
+    const[isAnonymous, setisAnonymous]=useState(null)
+    const[content,setContent]=useState('')
+    function HandleClickOne(){
+        setRating(1)
+    }
+    function HandleClickTwo(){
+        setRating(2)
+    }
+    function HandleClickThree(){
+        setRating(3)
+        
+    }
+    function HandleClickFour(){
+        setRating(4)
+    }
+    function HandleClickFive(){
+        setRating(5)
+    }
+    function NotAnonymous(){
+        setisAnonymous(0)
+    }
+    function YesAnonymous(){
+        setisAnonymous(1)
+    }
+    function HandleChange(event){
+        const review=event.target.value
+        setContent(review)
+    }
+    function HandleClick(){
+        let _data={
+            comment: content,
+            client: props.clientid,
+            anonymous:isAnonymous,
+            rating:Rating,
+            therapist:parseInt(mappingid,10),
+        }
+        fetch("http://localhost:5000"+"/reviews", {
+            method: "POST",
+            body: JSON.stringify(_data),
+            headers: {"Content-type": "application/json; charset=UTF-8"}
+        })
+        .then(response => response.json()) 
+        .then(json => {
+            console.log(json)
+
+            if (json && json.success) {
+                console.log("The review has been added")
+            }
+         })
+         .catch(err => {
+             console.log(err);
+             // possibly display an error message on the frontend
+         });
+    }
+
     if(PromiseisCompleted){
         const DesiredTitle=therapistobj.first_name+' '+therapistobj.last_name
     return(
@@ -36,18 +92,18 @@ function WriteAReviewPage(props){
                         <div className='write-a-review-rating-section'>
                             <TherapistSearchSubtitle text='Your Rating' />
                             <div className='write-a-review-rating-buttons'>
-                                <button className='write-a-review-rating-button'>1</button>
-                                <button className='write-a-review-rating-button'>2</button>
-                                <button className='write-a-review-rating-button'>3</button>
-                                <button className='write-a-review-rating-button'>4</button>
-                                <button className='write-a-review-rating-button'>5</button>
+                                <button className='write-a-review-rating-button' onClick={HandleClickOne}>1</button>
+                                <button className='write-a-review-rating-button' onClick={HandleClickTwo}>2</button>
+                                <button className='write-a-review-rating-button' onClick={HandleClickThree}>3</button>
+                                <button className='write-a-review-rating-button' onClick={HandleClickFour}>4</button>
+                                <button className='write-a-review-rating-button' onClick={HandleClickFive}>5</button>
                             </div>
                         </div>
                         <div className='write-a-review-rating-section'>
                             <TherapistSearchSubtitle text='Anonymous' />
                             <div className='write-a-review-rating-buttons'>
-                                <button className='write-a-review-rating-button'>Y</button>
-                                <button className='write-a-review-rating-button'>N</button>
+                                <button className='write-a-review-rating-button' onClick={NotAnonymous}>Y</button>
+                                <button className='write-a-review-rating-button' onClick={YesAnonymous}>N</button>
                             </div>
                         </div>
                     </div>
@@ -56,10 +112,10 @@ function WriteAReviewPage(props){
                             <TherapistSearchSubtitle text='Your Review' />
                         </div>
                         <div className='write-a-review-text-area-container'>
-                            <textarea className='write-a-review-textarea'></textarea>
+                            <textarea className='write-a-review-textarea' onChange={HandleChange}></textarea>
                         </div>
                         <div>
-                        <button className='write-a-review-rating-button write-a-review-submit-button'>Submit</button>
+                        <button className='write-a-review-rating-button write-a-review-submit-button' onClick={HandleClick}>Submit</button>
                         </div>
                     </div>
                 </div>

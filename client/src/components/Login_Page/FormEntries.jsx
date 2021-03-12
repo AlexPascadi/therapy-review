@@ -1,16 +1,16 @@
 const Form_one_Entries=[
     {key:0, 
 
-    FieldName:"Email"},
+    FieldName:"email"},
 
 ]
 const Form_two_Entries=[
     {key:0, 
         
-    FieldName:"Email"},
+    FieldName:"email"},
 
     {key:1,
-    FieldName:"Full Name"}
+    FieldName:"name"}
 ]
 
 export {Form_one_Entries, Form_two_Entries};

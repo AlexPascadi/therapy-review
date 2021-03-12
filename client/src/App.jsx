@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 import LandingPage from './components/Landing_Page/LandingPage'
 import LoginPage from './components/Login_Page/LoginPage'
@@ -9,19 +9,30 @@ import WriteAReviewPage from './components/Write_A_Review_Page/WriteAReviewPage'
 import ReadMoreReviewsPage from './components/Read_More_Reviews_Page/ReadMoreReviewsPage'
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
-function App(){
-    const [isAuthenticated, setisAuthenticated]=useState(false)
+function App() {
+    const [isAuthenticated, setisAuthenticated] = useState(false)
+    const [clientid, setClientid] = useState(null)
+
     // const [ViewProfile]
 
-    return(
+    return (
         <BrowserRouter>
             <Switch>
-                <Route exact path="/" component={LandingPage}/>
-                <Route exact path="/login" component={LoginPage}/>
-                <Route exact path="/search" component={MainSearchPage}/>
-                <Route exact path="/:therapistid" component={Detailed_Account_Page}/>
-                <Route exact path="/:therapistid/readmorereviews" component={ReadMoreReviewsPage}/>
-                <Route exact path="/:therapistid/writeareview" component={WriteAReviewPage}/>
+                <Route exact path="/" component={LandingPage} />
+                <Route exact path="/login" render={(props) => (
+                        <LoginPage {...props} setisAuthenticated={setisAuthenticated} setClientid={setClientid}/>
+                    )} />
+                {/* <Route
+                    path='/dashboard'
+                    render={(props) => (
+                        <Dashboard {...props} isAuthed={true} />
+                    )}
+                /> */}
+                <Route exact path="/search" render={(props)=>(<MainSearchPage {...props} isAuthenticated={isAuthenticated} clientid={clientid} /> )}/>
+                <Route exact path="/:therapistid" component={Detailed_Account_Page} />
+                <Route exact path="/:therapistid/readmorereviews" component={ReadMoreReviewsPage} />
+                <Route exact path="/:therapistid/writeareview" render={(props)=>(<WriteAReviewPage {...props} isAuthenticated={isAuthenticated} clientid={clientid} /> )}/>
+                <Route exact path="/clients/:clientid" component={MyAccountPage} />
             </Switch>
         </BrowserRouter>
 
