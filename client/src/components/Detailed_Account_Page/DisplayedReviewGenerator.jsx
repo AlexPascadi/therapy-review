@@ -5,22 +5,32 @@ import {ReviewArray} from './DetailedAcountPageArrays'
 import DisplayedReview from './DisplayedReview'
 
 function ReviewRenderer(element){
+    const desiredDate=element.date_posted.split('T')[0]
     return (
         <div>
-            <DisplayedReview review={element.content} />
-            <InitialsHiddenText date={element.date} />
+            <DisplayedReview review={element.comment} />
+            <InitialsHiddenText date={desiredDate} />
         </div>
     )
 }
 
 function DisplayedReviewGenerator(props){
-    function ElementPicker(element){
-        return element.name===props.name
-    }
-    const DesiredArray=ReviewArray.find(ElementPicker).review
+    // const Reviewarray=props.review.map(ReviewRenderer)
+    // function ElementPicker(element){
+    //     return element.name===props.name
+    // }
+    // const DesiredArray=ReviewArray.find(ElementPicker).review
+    console.log(props.reviews)
+    if(props.reviews.length>0){
     return(
-        DesiredArray.slice(0,2).map(ReviewRenderer)
+        props.reviews.slice(0,2).map(ReviewRenderer)
     )
+    }
+    else{
+        return(
+            <h1>Loading</h1>
+        )
+    }
 }
 
 export default DisplayedReviewGenerator;

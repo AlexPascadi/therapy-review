@@ -18,7 +18,7 @@ function FormEntryContainer(props){
             <FormTitle title={props.title} />
             {props.arrayName.map(RenderFormEntries)}
             <PasswordFormEntry />
-            <FormButton buttontext={props.buttontext} />            
+            <FormButton buttontext={props.buttontext} onClick={props.onClick} />            
             </div>
     )
 }

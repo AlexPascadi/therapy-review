@@ -7,20 +7,20 @@ import ReviewInputButtons from './ReviewInputButtons'
 import DisplayedReviewGenerator from './DisplayedReviewGenerator'
 
 function RatingAndReviewContainer(props){
-    const DesiredTitle=props.name.replace(/_/g,' ')
-    const DesiredArray=ReviewArray.find((x)=>{return x.name===DesiredTitle})
+    // const DesiredTitle=props.name.replace(/_/g,' ')
+    // const DesiredArray=ReviewArray.find((x)=>{return x.name===DesiredTitle})
    
     return(
         <div className='Rating-and-reviews-container'>
-            <RatingContainer text='Overall Rating' rating={DesiredArray.rating}/>
+            <RatingContainer text='Overall Rating' rating={props.rating}/>
             <div className='rating-and-review-hr-div'>
                 <hr className='rating-and-review-hr' />
             </div>
             <div>
                 <RecentReviewTitle title='Recent Reviews' />                        
                 <div>
-                    <DisplayedReviewGenerator name={DesiredTitle} />
-                    <ReviewInputButtons name={props.name} />
+                    <DisplayedReviewGenerator reviews={props.reviews} />
+                    <ReviewInputButtons therapistid={props.therapistid} />
                 </div>
             </div>
         </div>

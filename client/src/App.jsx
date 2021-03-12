@@ -20,8 +20,8 @@ function App(){
                 <Route exact path="/login" component={LoginPage}/>
                 <Route exact path="/search" component={MainSearchPage}/>
                 <Route exact path="/:therapistid" component={Detailed_Account_Page}/>
-                <Route exact path="/:therapist/readmorereviews" component={ReadMoreReviewsPage}/>
-                <Route exact path="/:therapist/writeareview" component={WriteAReviewPage}/>
+                <Route exact path="/:therapistid/readmorereviews" component={ReadMoreReviewsPage}/>
+                <Route exact path="/:therapistid/writeareview" component={WriteAReviewPage}/>
             </Switch>
         </BrowserRouter>
 

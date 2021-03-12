@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{useState} from 'react'
 import ReactDOM from 'react-dom'
 import MenuBar from '../Main_Search_Page/MenuBar'
 import TherapistProfileHeader from '../Detailed_Account_Page/TherapistProfileHeader'
@@ -6,13 +6,32 @@ import Adam_Raff from '../images/Dr-Adam-Raff-MD-109495-circle_large 1.svg'
 import TherapistSearchSubtitle from '../Main_Search_Page/TherapistSearchSubtitle'
 
 function WriteAReviewPage(props){
+    const mappingid= props.match.params.therapistid
+    const [therapistobj,setTherapistobj]=useState({})
+    const[PromiseisCompleted,setPromiseisCompleted]=useState(false)
+    const DesiredURL= '/therapists/' + mappingid
+
+    async function getData(){
+        // console.log(response1)
+        let response2 = await fetch("http://localhost:5000"+DesiredURL).then((result)=>result.json())
+        // console.log(response2)
+        setTherapistobj(response2)
+        setPromiseisCompleted(true)
+    }
+    getData( "http://localhost:5000"+DesiredURL)
+    // function ReviewPicker(element){
+    //     return checkURLDestination===element.URLdestination
+    // }
+    // const DesiredArray=ReviewArray.find(ReviewPicker)
+    if(PromiseisCompleted){
+        const DesiredTitle=therapistobj.first_name+' '+therapistobj.last_name
     return(
         <div>
             <MenuBar />
             <div className='landing-search-page-body'>
                 <h1 className='my-account-page-title'> Write A Review</h1>
                 <div className='write-a-review-panel'>
-                <TherapistProfileHeader title={props.match.params.therapist} />
+                <TherapistProfileHeader img={therapistobj.image_location} title={DesiredTitle} specialties={therapistobj.specialities} address={therapistobj.address} in_person_visits={therapistobj.in_person_visits} online_visits={therapistobj.online_visits} />
                     <div className='write-a-review-rating-and-anonymous-panel'>
                         <div className='write-a-review-rating-section'>
                             <TherapistSearchSubtitle text='Your Rating' />
@@ -47,6 +66,12 @@ function WriteAReviewPage(props){
             </div>
         </div>
     )
+    }
+    else{
+        return(
+            <h1>Loading</h1>
+        )
+    }
 }
 
 export default WriteAReviewPage;

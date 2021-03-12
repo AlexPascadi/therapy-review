@@ -6,22 +6,28 @@ import DisplayedReview from '../Detailed_Account_Page/DisplayedReview'
 
 
 function ReviewRenderer(element){
+    const desiredDate=element.date_posted.split('T')[0]
     return (
         <div className='read-more-reviews-review'>
-            <DisplayedReview review={element.content} />
-            <InitialsHiddenText date={element.date} />
+            <DisplayedReview review={element.comment} />
+            <InitialsHiddenText date={desiredDate} />
         </div>
     )
 }
 
 function MoreReviewsGenerator(props){
-    function ElementPicker(element){
-        return element.URLdestination.includes(props.name)
-    }
-    const DesiredArray=ReviewArray.find(ElementPicker).review
+    // function ElementPicker(element){
+    //     return element.URLdestination.includes(props.name)
+    // }
+    // const DesiredArray=ReviewArray.find(ElementPicker).review
+    if(props.array.length>0){
     return(
-        DesiredArray.map(ReviewRenderer)
+        props.array.map(ReviewRenderer)
     )
+    }
+    else{
+        return(<h1>No reviews.</h1>)
+    }
 }
 
 export default MoreReviewsGenerator;

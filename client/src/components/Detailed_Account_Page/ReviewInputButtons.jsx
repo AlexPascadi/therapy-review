@@ -4,8 +4,8 @@ import ReadMoreReviewsButton from './ReadMoreReviewsButton'
 import {Link} from 'react-router-dom'
 
 function ReviewInputButtons(props){
-    const desiredReadmorereviews=props.name+'/readmorereviews'
-    const desiredwriteareview=props.name+'/writeareview'
+    const desiredReadmorereviews=String(props.therapistid)+'/readmorereviews'
+    const desiredwriteareview=String(props.therapistid)+'/writeareview'
     return(
         <div className='therapist-visit-icon-container read-more-review-button-container'>
             <Link to={desiredReadmorereviews}>
