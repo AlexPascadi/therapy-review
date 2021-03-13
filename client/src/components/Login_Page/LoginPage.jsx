@@ -129,10 +129,10 @@ function LoginPage(props){
             {
                 if(json && json.password==LoginInput.password){
                     setIsLoginSuccess(true)
-                    props.setisAuthenticated(true)
+                    // props.setisAuthenticated(true)
                     
                     // cId=json.id
-                    props.setClientid(json.id)
+                    // props.setClientid(json.id)
                     window.location.href='http://localhost:3000/clients/'+String(json.id)
                 }
                 else{
@@ -165,7 +165,7 @@ function LoginPage(props){
                 isLoginSuccess && <Redirect to={'/clients/'+ String(cId)} />
            } */}
            {
-               isLoginSuccess===false && <div>Login Failed</div>
+              //isLoginSuccess===false && <div>Login Failed</div> 
            }
         </div>
     )

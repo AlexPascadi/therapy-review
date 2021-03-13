@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
-import MenuBar from '../Main_Search_Page/MenuBar'
+import {MenuBar,LoggedInMenuBarWithoutSearchBar} from '../Main_Search_Page/MenuBar'
 import Styledhr from '../Detailed_Account_Page/Styledhr'
 import TherapistSearchSubtitle from '../Main_Search_Page/TherapistSearchSubtitle'
 import MyFavoritesGenerator from './MyFavoritesGenerator'
@@ -33,11 +33,12 @@ class MyAccountPage extends React.Component {
                     })
                         .then(response => response.json())
                         .then(fav => {
-                            let flag;
+                            // let flag;
                             if (fav) {
                                 // setFavoritesArray(json)
                                 // setPromiseiscompleted(true)
-                                flag = true;
+                                // flag = true;
+                                console.log("Retrieved Favorites")
                                 this.setState({
                                     clientObj: clientObj,
                                     FavoritesArray: fav,
@@ -57,12 +58,12 @@ class MyAccountPage extends React.Component {
     // let response=await fetch("http://localhost:5000" + DesiredURL).then((result)=>result.json())
     render() {
         if (this.state.promiseiscompleted) {
-            console.log(this.state.clientObj)
+            console.log(this.state.FavoritesArray)
 
             return (
                 <div>
                     <div>
-                        <MenuBar />
+                        <LoggedInMenuBarWithoutSearchBar clientid={this.props.match.params.clientid}/>
                     </div>
                     <div className='landing-search-page-body my-account-page-body'>
                         <div>
@@ -90,7 +91,7 @@ class MyAccountPage extends React.Component {
                             <TherapistSearchSubtitle text='My Favorites' />
                         </div>
                         <Styledhr />
-                        <MyFavoritesGenerator ArrayName={this.state.FavoritesArray}/>
+                        <MyFavoritesGenerator clientid={this.props.match.params.clientid} ArrayName={this.state.FavoritesArray}/>
                     </div>
                 </div>
             )

@@ -1,11 +1,13 @@
 import React,{useState} from 'react'
 import ReactDOM from 'react-dom'
-import MenuBar from '../Main_Search_Page/MenuBar'
+import {MenuBar,LoggedInMenuBarWithoutSearchBar} from '../Main_Search_Page/MenuBar'
 import TherapistProfileHeader from '../Detailed_Account_Page/TherapistProfileHeader'
 import Adam_Raff from '../images/Dr-Adam-Raff-MD-109495-circle_large 1.svg'
 import TherapistSearchSubtitle from '../Main_Search_Page/TherapistSearchSubtitle'
 
+
 function WriteAReviewPage(props){
+    const clientid=props.match.params.clientid
     const mappingid= props.match.params.therapistid
     const [therapistobj,setTherapistobj]=useState({})
     const[PromiseisCompleted,setPromiseisCompleted]=useState(false)
@@ -18,7 +20,7 @@ function WriteAReviewPage(props){
         setTherapistobj(response2)
         setPromiseisCompleted(true)
     }
-    getData( "http://localhost:5000"+DesiredURL)
+    getData()
     // function ReviewPicker(element){
     //     return checkURLDestination===element.URLdestination
     // }
@@ -43,10 +45,10 @@ function WriteAReviewPage(props){
         setRating(5)
     }
     function NotAnonymous(){
-        setisAnonymous(0)
+        setisAnonymous(1)
     }
     function YesAnonymous(){
-        setisAnonymous(1)
+        setisAnonymous(0)
     }
     function HandleChange(event){
         const review=event.target.value
@@ -55,7 +57,7 @@ function WriteAReviewPage(props){
     function HandleClick(){
         let _data={
             comment: content,
-            client: props.clientid,
+            client: parseInt(clientid,10),
             anonymous:isAnonymous,
             rating:Rating,
             therapist:parseInt(mappingid,10),
@@ -83,7 +85,7 @@ function WriteAReviewPage(props){
         const DesiredTitle=therapistobj.first_name+' '+therapistobj.last_name
     return(
         <div>
-            <MenuBar />
+            <LoggedInMenuBarWithoutSearchBar clientid={props.match.params.clientid} />
             <div className='landing-search-page-body'>
                 <h1 className='my-account-page-title'> Write A Review</h1>
                 <div className='write-a-review-panel'>

@@ -17,7 +17,7 @@ function LandingPage(){
             <Subtitle text="You deserve to be happy." /> 
             <div className='landing-page-buttons-container'>
             <Link to='/search'>
-            <button type="button" class="search-button">Search <img class="search-btn" src={SearchIcon} alt="search-icon" /></button>
+            <button type="button" class="search-button">Search <img class="search-btn" src={SearchIcon} alt="search-icon"/></button>
             </Link>
             <Link to='/login'>
             <button type="button" class="login-button">Log in / Sign Up</button>

@@ -20,7 +20,7 @@ function RatingAndReviewContainer(props){
                 <RecentReviewTitle title='Recent Reviews' />                        
                 <div>
                     <DisplayedReviewGenerator reviews={props.reviews} />
-                    <ReviewInputButtons therapistid={props.therapistid} />
+                    <ReviewInputButtons clientid={props.clientid} therapistid={props.therapistid} />
                 </div>
             </div>
         </div>
