@@ -1,37 +1,29 @@
-(To be finished)
+## Smart Therapy
 
-How to start the app:
-Install Node.js (and what else does the user need?).
-Clone the git repository into some new folder.
-From the root of your local repository, run the following commands:
+> Rate-and-review web application to help you find the best therapist for you. Includes a favorites list for logged-in users.
 
-cd client
-npm install
-npm install react-router-dom
+Tech Stack: React (using HTML and CSS) / Node.js (using Express) / MySQL.
 
-cd ..
-npm install
-npm install nodemon -g
+## Usage
 
-npm start
+Necessary technology to download:
+1. Install Node.js from https://nodejs.org/en/. Make sure to select the correct version depending on your operating system.
+2. Broswer that was used to clone the application from GitHub; note that the application when started will run on the default system broswer if not specified.
+You do not need to download MySQL.
 
-The app should open in localhost:3000
-The server is in localhost:5000
+How to install the app dependencies (after cloning the repository in a folder):
+1. Open the terminal commnand line
+2. Navigate to the root folder that the application was cloned into, ex. cd <root_folder_of_local_repository>
+3. Next, run the following commands in sequence in terminal
+4. cd client
+5. npm install
+6. npm install react-router-dom
+7. cd ..
+8. npm install
+9. npm install nodemon -g
+10. If 9 didn't work and you're using macOS, try running "sudo npm install -g nodemon" instead.
 
+To run the app, simply type "npm start" into the command line (from the root git folder).
+The application should automatically open in the broswer in localhost:3000. The server is located at localhost:5000, although it is not necessary to open the server separately ("npm start" already starts it). 
 
-
-
-Relevant paragraphs from the project's specification
-(https://web.cs.ucla.edu/classes/winter21/cs97-1/project.html):
-
-Since you will submit your repository, it should also contain a README file (plaintext or 
-Markdown) describing in detail how someone who cloned it can run your app. This should, of course,
-include any shell commands needed for setup.
-
-One team member must submit a compressed tarball of your GitHub repository to CCLE. This should 
-contain all your group’s work, including any documentation, presentations, etc. The repository 
-should not include generated files, only source code; the README file should explain how to 
-generate any files (e.g., node modules) buildable from the source (adding their names to your 
-.gitignore file can help you avoid submitting them by mistake). You should be able to obtain 
-such a tarball directly from GitHub. 
-Name the file UID-project.tar.gz, where UID is your student ID.
+From the tab that was automatically opened, search and enjoy! You can close the app from the command-line using Ctrl+C, then type "npm start" at any later time to restart it.
