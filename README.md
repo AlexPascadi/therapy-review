@@ -1,6 +1,6 @@
 ## Smart Therapy
 
-> Rate-and-review web application to help you find the best therapist for you.
+> Rate-and-review web application to help you find the best therapist for you. Includes a favorites list for logged-in users.
 
 Tech Stack: React (using HTML and CSS) / Node.js (using Express) / MySQL.
 
